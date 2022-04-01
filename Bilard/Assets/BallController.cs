@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+public enum BallType {NULL, WHITE, HALF, FULL, BLACK};
+[RequireComponent(typeof(SphereCollider))]
 public class BallController : MonoBehaviour
 {
+    
     private Rigidbody _rb;
+    [SerializeField] private BallType ballType;
+    [SerializeField] private int ballNumber;
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Awake() {
         _rb = GetComponent<Rigidbody>();
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //_rb.velocity = _rb.velocity*0.99f;
-    }
-    private void FixedUpdate() {
-        //_rb.AddForce(Vector3.down, ForceMode.VelocityChange);
+        PhysicsController.physicsDelegate += ApplyPhysics;
     }
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Band")
@@ -26,7 +23,16 @@ public class BallController : MonoBehaviour
         Vector3 objectDir = transform.forward;
         Vector3 otherNormal = other.contacts[0].normal;
         _rb.velocity = Vector3.Reflect(_rb.velocity, otherNormal);
-        //_rb.AddTorque(_rb.velocity);
         }
     }
+    public void ApplyPhysics()
+    {
+        if(_rb != null)
+        {
+            _rb.angularDrag = PhysicsController.instance.getAngularDrag();
+            _rb.mass = PhysicsController.instance.getBallMass();
+            _rb.drag = PhysicsController.instance.getDrag();
+        }
+    }
+    
 }
