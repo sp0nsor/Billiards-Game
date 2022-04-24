@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637844094409826076
-    m_Hash: 483974897
+      ticks: 637853722079884058
+    m_Hash: 3255912424
   m_LockFileStatus:
     m_FilePath: D:/Projekty Unity/Billiards-Game/Bilard/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637844094848440456
-    m_Hash: 679879821
+      ticks: 637853722079894059
+    m_Hash: 946008340
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:

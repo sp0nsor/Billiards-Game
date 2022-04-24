@@ -34,5 +34,22 @@ public class BallController : MonoBehaviour
             _rb.drag = PhysicsController.instance.getDrag();
         }
     }
+    public void GotPocketed(PocketType pocketType)
+    {
+        GameController.instance.CheckPocketedBall(this, pocketType);
+        if(ballType == BallType.HALF || ballType == BallType.FULL)
+        {
+        PhysicsController.physicsDelegate -= ApplyPhysics;
+        Destroy(gameObject, 2f);
+        }
+    }
+    public BallType getBallType()
+    {
+        return ballType;
+    }
+    public int getBallNumber()
+    {
+        return ballNumber;
+    }
     
 }

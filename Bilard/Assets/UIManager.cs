@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameMenu;
     [SerializeField] private GameObject settings;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    [SerializeField] private Slider massSlider, dragSlider, angDragSlider;
+    [SerializeField] private TextMeshProUGUI massText, dragText, angDragText;
+    [SerializeField] private Sprite[] Ball2DSprites = new Sprite[8];
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Start() {
+        SetUpSliders();
+        UpdateSliders();
     }
     public void ShowGameMenu()
     {
+        if(!gameMenu.activeSelf && !settings.activeSelf )
+        {
         gameMenu.SetActive(!gameMenu.activeSelf);
-        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+        Time.timeScale = 0;
+        }
+        else
+        {
+            DisableMenus();
+        }
     }
     public void DisableMenus()
     {
@@ -27,8 +34,60 @@ public class UIManager : MonoBehaviour
         settings.SetActive(false);
         Time.timeScale = 1;
     }
+    public void SetUpSliders()
+    {
+        massSlider.value = PhysicsController.instance.getDefaultBallMass();
+        massSlider.onValueChanged.AddListener((v) => {
+        PhysicsController.instance.setTempMass(v);
+        if(v.ToString().Length > 4)
+        massText.text = v.ToString().Substring(0,4);
+        else
+        massText.text = v.ToString();
+    });
+        dragSlider.value = PhysicsController.instance.getDefaultDrag();
+        dragSlider.onValueChanged.AddListener((v) => {
+            PhysicsController.instance.setTempDrag(v);
+            if(v.ToString().Length > 4)
+            dragText.text = v.ToString().Substring(0,4);
+            else
+            dragText.text = v.ToString();
+    });
+        angDragSlider.value = PhysicsController.instance.getDefaultAngularDrag();
+        angDragSlider.onValueChanged.AddListener((v) => {
+        PhysicsController.instance.setTempAngularDrag(v);
+        if(v.ToString().Length > 4)
+        angDragText.text = v.ToString().Substring(0,4);
+        else
+        angDragText.text = v.ToString();
+    });
+    }
+    public void UpdateSliders()
+    {
+        massSlider.value = PhysicsController.instance.getBallMass();
+        string temp = PhysicsController.instance.getBallMass().ToString();
+        if(temp.Length > 4)
+        temp = temp.Substring(0,4);
+        massText.text = temp;
+        dragSlider.value = PhysicsController.instance.getDrag();
+        temp = PhysicsController.instance.getDrag().ToString();
+        if(temp.Length > 4)
+        temp = temp.Substring(0,4);
+        dragText.text = temp;
+        angDragSlider.value = PhysicsController.instance.getAngularDrag();
+        temp = PhysicsController.instance.getAngularDrag().ToString();
+        if(temp.Length > 4)
+        temp = temp.Substring(0,4);
+        angDragText.text = temp;
+    }
     public void ApplyPhysicsButton()
     {
+        PhysicsController.instance.ApplyPhysicsChanges();
+        PhysicsController.physicsDelegate.Invoke();
+    }
+    public void onDefaultPhysicsButton()
+    {
+        PhysicsController.instance.SetDefaultPhysics();
+        UpdateSliders();
         PhysicsController.physicsDelegate.Invoke();
     }
     public void onMenuCloseButton(string menuName)
@@ -37,8 +96,7 @@ public class UIManager : MonoBehaviour
         temp = temp.ToLower();
         if(temp.Contains("main"))
         {
-            Time.timeScale = 1;
-            gameMenu.SetActive(false);
+            DisableMenus();
         }
         if(temp.Contains("settings"))
         {
@@ -53,6 +111,7 @@ public class UIManager : MonoBehaviour
     public void onSettingsButtonClick()
     {
         gameMenu.SetActive(false);
+        UpdateSliders();
         settings.SetActive(true);
     }
     public void onMainMenuButtonClick()
@@ -64,4 +123,5 @@ public class UIManager : MonoBehaviour
         //exit game
         Application.Quit();
     }
+    
 }

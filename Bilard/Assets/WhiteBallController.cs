@@ -6,6 +6,7 @@ public class WhiteBallController : MonoBehaviour
 {
     public GameObject pool;
     private Rigidbody rb;
+    private SphereCollider sphColl;
     private bool timeToShoot = true;
     public float yawSpeed = 100f;
     private float currentYaw = 0f;
@@ -17,6 +18,7 @@ public class WhiteBallController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        sphColl = GetComponent<SphereCollider>();
         pool.transform.position = transform.position - new Vector3(0,0,0.2f);
     }
 
@@ -29,6 +31,7 @@ public class WhiteBallController : MonoBehaviour
             var horizontal = Input.GetAxisRaw("Horizontal");
             var vertical = Input.GetAxisRaw("Vertical");
         }
+        isFoul = GameController.instance.IsFoul();
         if(isFoul)
         {
             FoulState();
@@ -37,7 +40,7 @@ public class WhiteBallController : MonoBehaviour
         
     }
     private void LateUpdate() {
-        if(Input.GetKeyDown(KeyCode.Space) && Time.timeScale != 0)
+        if(Input.GetKeyDown(KeyCode.Space) && !GameController.instance.IsFoul() && Time.timeScale != 0)
         {
             Shoot();
         }
@@ -62,22 +65,20 @@ public class WhiteBallController : MonoBehaviour
     }
     public void FoulState()
     {
-        if(isFoul == false)
+        rb.useGravity = false;
+        rb.velocity = Vector3.zero;
+        sphColl.enabled = false;
+        if(Time.timeScale != 0)
         {
-            isFoul = true;
-            rb.useGravity = false;
-        }
-        else
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out RaycastHit hit, 100f, GameController.instance.WhatIsTable()))
+            transform.position = hit.point;
+        if(Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit hit, 100f, GameController.instance.tableLayer))
-                transform.position = hit.point;
-        
-            if(Input.GetMouseButtonDown(0))
-            {
-            isFoul = false;
+            GameController.instance.EndFoul();
             rb.useGravity = true;
-            }
+            sphColl.enabled = true;
+        }
         }
     }
 }

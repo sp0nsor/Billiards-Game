@@ -312,6 +312,7 @@
 "Assets/BallController.cs"
 "Assets/GameController.cs"
 "Assets/PhysicsController.cs"
+"Assets/PocketController.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"
