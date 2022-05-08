@@ -309,10 +309,12 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/BallController.cs"
-"Assets/GameController.cs"
-"Assets/PhysicsController.cs"
-"Assets/PocketController.cs"
+"Assets/Scripts/BallController.cs"
+"Assets/Scripts/GameController.cs"
+"Assets/Scripts/PhysicsController.cs"
+"Assets/Scripts/PocketController.cs"
+"Assets/Scripts/UIManager.cs"
+"Assets/Scripts/WhiteBallController.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"
@@ -347,8 +349,6 @@
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
-"Assets/UIManager.cs"
-"Assets/WhiteBallController.cs"
 -langversion:8.0
 
 /deterministic
