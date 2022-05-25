@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private List<int> P1PocketedBalls = new List<int>(), P2PocketedBalls = new List<int>();
     [SerializeField] private List<BallController> Balls = new List<BallController>();
+    private bool didPocketOwnBall=false;
     public static GameController instance;
 
     private void Awake() {
@@ -26,15 +27,16 @@ public class GameController : MonoBehaviour
         {
             instance = this;
         }
-        _uiManager.DisableMenus();
+        foul = false;
+        playerPocketedBall = false;
+        _gameState = GameState.PLAYER1TURN;
         
     }
     void Start()
     {
+        _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
-        foul = false;
-        playerPocketedBall = false;
-        _gameState = GameState.PLAYER1TURN;
+       
     }
 
     // Update is called once per frame
@@ -47,7 +49,7 @@ public class GameController : MonoBehaviour
                 _uiManager.ShowGameMenu();
             }
         }
-        AreBallsMoving();
+        //AreBallsMoving();
     }
 
     public void CheckPocketedBall(BallController ballController, PocketType pocketType)
@@ -64,12 +66,14 @@ public class GameController : MonoBehaviour
                     player1BType = ballType;
                     player2BType = otherBallType;
                     P1PocketedBalls.Add(ballController.getBallNumber());
+                    didPocketOwnBall = true;
                 }
                 else
                 {
                     player2BType = ballType;
                     player1BType = otherBallType;
                     P2PocketedBalls.Add(ballController.getBallNumber());
+                    didPocketOwnBall = true;
                 }
                 
                 RemoveFromBalls(ballController);
@@ -79,7 +83,7 @@ public class GameController : MonoBehaviour
             if(ballType == BallType.WHITE)
             {
                 foul = true;
-                _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
+                //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                 RemoveFromBalls(ballController);
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
             }
@@ -90,24 +94,35 @@ public class GameController : MonoBehaviour
             switch (ballType)
             {
                 case BallType.HALF:
-                    if(player1BType == BallType.HALF)
+                    if(player1BType == BallType.HALF){
                         P1PocketedBalls.Add(ballController.getBallNumber());
-                    else
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                    }
+                    else{
                         P2PocketedBalls.Add(ballController.getBallNumber());
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                    }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+                    //CheckChangeTurn();
                     break;
                 case BallType.FULL:
-                    if(player1BType == BallType.FULL)
+                    if(player1BType == BallType.FULL){
                         P1PocketedBalls.Add(ballController.getBallNumber());
-                    else
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                    }
+                    else{
                         P2PocketedBalls.Add(ballController.getBallNumber());
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                    }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+                    //CheckChangeTurn();
                     break;
                 case BallType.WHITE:
-                    _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
+                    //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                     foul = true;
+                    //CheckChangeTurn();
                     break;
                 case BallType.BLACK:
                     string winner = "";
@@ -136,13 +151,13 @@ public class GameController : MonoBehaviour
         {
         if(_gameState == GameState.PLAYER1TURN && player1BType != otherBallType)
         {
-            _gameState = GameState.PLAYER2TURN;
+            //_gameState = GameState.PLAYER2TURN;
             foul = true;
             return;
         }
         if(_gameState == GameState.PLAYER2TURN && player2BType != otherBallType)
         {
-            _gameState = GameState.PLAYER1TURN;
+            //_gameState = GameState.PLAYER1TURN;
             foul = true;
             return;
         }
@@ -152,6 +167,24 @@ public class GameController : MonoBehaviour
     public void Foul()
     {
 
+    }
+    //TODO Finish CheckChangeTurn
+    public void CheckChangeTurn()
+    {
+        if(!didPocketOwnBall && !AreBallsMoving())
+        {
+            _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
+            _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+            didPocketOwnBall = false;
+            return;
+        }
+        if(foul)
+        {
+            _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
+            _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+            didPocketOwnBall = false;
+            return;
+        }
     }
     public LayerMask WhatIsTable()
     {
@@ -179,6 +212,7 @@ public class GameController : MonoBehaviour
         //Debug.Log(temp);
         return temp;
     }
+    /*
     public IEnumerator AreBallsMovingEnumerator()
     {
         bool areMoving = true;
@@ -202,6 +236,7 @@ public class GameController : MonoBehaviour
         }
         yield return areMoving;
     }
+    */
     public void RemoveFromBalls(BallController ballController)
     {
         

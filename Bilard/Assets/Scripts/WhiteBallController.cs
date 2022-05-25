@@ -14,7 +14,7 @@ public class WhiteBallController : MonoBehaviour
     private float shotAngle;
     private float ratio;
     private bool isFoul = false;
-    private bool ballsStanding = true;
+    private bool areBallsMoving = false;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
@@ -38,7 +38,7 @@ public class WhiteBallController : MonoBehaviour
             var vertical = Input.GetAxisRaw("Vertical");
         }
         isFoul = _gameController.IsFoul();
-        if(isFoul)
+        if(isFoul && !areBallsMoving)
         {
             FoulState();
         }
@@ -46,7 +46,7 @@ public class WhiteBallController : MonoBehaviour
         
     }
     private void LateUpdate() {
-        if(Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && ballMovingCoroutine == null)
+        if(Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
             Shoot();
         }
@@ -67,8 +67,10 @@ public class WhiteBallController : MonoBehaviour
         float degree = pool.transform.rotation.y;
         Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         rb.AddForce(shotForce, ForceMode.Impulse);
+        pool.SetActive(false);
         // Think about implementation
         //StartCoroutine(_gameController.AreBallsMovingEnumerator());
+        StartCoroutine(WaitForBallsToStop());
     }
     private void OnDrawGizmos() {
         Gizmos.DrawLine(transform.position, transform.position+shotForce);
@@ -96,13 +98,15 @@ public class WhiteBallController : MonoBehaviour
     // TO DO : POOL DISAPPEARING/REAPPEARING AND MAKE BALLS STANDING TRUE AT THE END
     public IEnumerator WaitForBallsToStop()
     {
-        ballsStanding = false;
+        areBallsMoving = true;
         yield return new WaitForSeconds(0.1f);
         while(_gameController.AreBallsMoving())
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f);
         }
-        ballsStanding = true;
+        areBallsMoving = false;
+        pool.SetActive(true);
+        _gameController.CheckChangeTurn();
     }
     private void OnCollisionEnter(Collision other) {
         BallController ballController = other.gameObject.GetComponent<BallController>();

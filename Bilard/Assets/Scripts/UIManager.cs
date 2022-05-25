@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image[] player1Balls, player2Balls;
 
     private void Start() {
-        ClearBallGrid();
+        SetupUI();
         SetUpSliders();
         UpdateSliders();
     }
@@ -126,7 +126,7 @@ public class UIManager : MonoBehaviour
         //exit game
         Application.Quit();
     }
-    public void ClearBallGrid()
+    public void SetupUI()
     {
         for(int i=0;i<player1Balls.Count();i++)
         {
@@ -136,6 +136,7 @@ public class UIManager : MonoBehaviour
         {
             player2Balls[i].enabled = false;
         }
+        turnText.text = GameController.instance.GetGameState() == GameState.PLAYER1TURN ? "P1 TURN" : "P2 TURN";
     }
     public void UpdateUI(List<int> PocketedBallsP1, List<int> PocketedBallsP2)
     {
