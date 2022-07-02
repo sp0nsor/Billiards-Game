@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private BallType player1BType = BallType.NULL, player2BType = BallType.NULL;
     [SerializeField] private PocketType player1ChosenPocket, player2ChosenPocket;
     [SerializeField] private LayerMask tableLayer;
-    [SerializeField] private Vector3 tableCenter;
+    [SerializeField] private Vector3 tableCenter, waitingPoint;
     [SerializeField] private UIManager _uiManager;
     [SerializeField] private List<int> P1PocketedBalls = new List<int>(), P2PocketedBalls = new List<int>();
     [SerializeField] private List<BallController> Balls = new List<BallController>();
@@ -36,6 +36,8 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
+        //QualitySettings.vSyncCount = 0;
+        //Application.targetFrameRate = 60;
        
     }
 
@@ -49,9 +51,10 @@ public class GameController : MonoBehaviour
                 _uiManager.ShowGameMenu();
             }
         }
+        //if(Application.targetFrameRate != 60) {Application.targetFrameRate = 60;}
         //AreBallsMoving();
     }
-
+    //BUG when player pockets his ball and in the same time other player ball is pocketed, turn changes but it should not. Problem lies in setting true or false to did pocket own ball because it changes from false to true and then again to false.
     public void CheckPocketedBall(BallController ballController, PocketType pocketType)
     {
         BallType ballType = ballController.getBallType();
@@ -84,7 +87,7 @@ public class GameController : MonoBehaviour
             {
                 foul = true;
                 //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
-                RemoveFromBalls(ballController);
+                ballController.TakeToWaitingPoint();
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
             }
             
@@ -96,11 +99,11 @@ public class GameController : MonoBehaviour
                 case BallType.HALF:
                     if(player1BType == BallType.HALF){
                         P1PocketedBalls.Add(ballController.getBallNumber());
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN && didPocketOwnBall!= true ? true : false;
                     }
                     else{
                         P2PocketedBalls.Add(ballController.getBallNumber());
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN && didPocketOwnBall!= true ? true : false;
                     }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
@@ -109,11 +112,11 @@ public class GameController : MonoBehaviour
                 case BallType.FULL:
                     if(player1BType == BallType.FULL){
                         P1PocketedBalls.Add(ballController.getBallNumber());
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN && didPocketOwnBall!= true ? true : false;
                     }
                     else{
                         P2PocketedBalls.Add(ballController.getBallNumber());
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN && didPocketOwnBall!= true ? true : false;
                     }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
@@ -122,6 +125,7 @@ public class GameController : MonoBehaviour
                 case BallType.WHITE:
                     //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                     foul = true;
+                    ballController.TakeToWaitingPoint();
                     //CheckChangeTurn();
                     break;
                 case BallType.BLACK:
@@ -162,20 +166,24 @@ public class GameController : MonoBehaviour
             return;
         }
         }
-
     }
     public void Foul()
     {
-
+        Debug.Log("Foul");
+        foul = true;
+    }
+    public Vector3 GetWaitingPoint()
+    {
+        return waitingPoint;
     }
     //TODO Finish CheckChangeTurn
     public void CheckChangeTurn()
     {
-        if(!didPocketOwnBall && !AreBallsMoving())
+
+        if(!didPocketOwnBall)
         {
             _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
             _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
-            didPocketOwnBall = false;
             return;
         }
         if(foul)
@@ -185,6 +193,7 @@ public class GameController : MonoBehaviour
             didPocketOwnBall = false;
             return;
         }
+        didPocketOwnBall = false;
     }
     public LayerMask WhatIsTable()
     {

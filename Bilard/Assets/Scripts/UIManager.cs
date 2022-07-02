@@ -64,6 +64,7 @@ public class UIManager : MonoBehaviour
         angDragText.text = v.ToString();
     });
     }
+    
     public void UpdateSliders()
     {
         massSlider.value = PhysicsController.instance.getBallMass();

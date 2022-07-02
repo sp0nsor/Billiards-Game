@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class WhiteBallController : MonoBehaviour
 {
     public GameObject pool;
+    [SerializeField]
+    private Slider slider;
     private Rigidbody rb;
     private SphereCollider sphColl;
     private bool timeToShoot = true;
@@ -13,7 +15,7 @@ public class WhiteBallController : MonoBehaviour
     private Vector3 shotForce = Vector3.forward*2;
     private float shotAngle;
     private float ratio;
-    private bool isFoul = false;
+    private bool isFoul = false, hitBall = false;
     private bool areBallsMoving = false;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
@@ -31,7 +33,7 @@ public class WhiteBallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // TODO Sprawić żeby po ciągłym wciśnięciu klawisza do obrotu punktu uderzenia w bilę szybkość kręcenia zwiększała się
         if(Input.anyKeyDown)
         {
             var horizontal = Input.GetAxisRaw("Horizontal");
@@ -43,9 +45,10 @@ public class WhiteBallController : MonoBehaviour
             FoulState();
         }
         currentYaw -= Input.GetAxisRaw("Horizontal") * yawSpeed * Time.deltaTime;
-        
+        slider.transform.position = RectTransformUtility.WorldToScreenPoint(mainCam, transform.position + new Vector3(0.1f, 0, 0));
     }
     private void LateUpdate() {
+        // BUG, AFTER PLACING BALL AFTER FOUL AND SHOOTING IT DOESNT WAIT FOR BALLS TO STOP AND JUST CHANGES TURN 
         if(Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
             Shoot();
@@ -68,13 +71,12 @@ public class WhiteBallController : MonoBehaviour
         Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         rb.AddForce(shotForce, ForceMode.Impulse);
         pool.SetActive(false);
-        // Think about implementation
-        //StartCoroutine(_gameController.AreBallsMovingEnumerator());
         StartCoroutine(WaitForBallsToStop());
     }
     private void OnDrawGizmos() {
         Gizmos.DrawLine(transform.position, transform.position+shotForce);
     }
+    // BUG after foul ball falls through table
     public void FoulState()
     {
         rb.useGravity = false;
@@ -105,15 +107,19 @@ public class WhiteBallController : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
         areBallsMoving = false;
+        if(!hitBall)
+            _gameController.Foul();
         pool.SetActive(true);
         _gameController.CheckChangeTurn();
+        hitBall = false;
     }
     private void OnCollisionEnter(Collision other) {
         BallController ballController = other.gameObject.GetComponent<BallController>();
-        if(ballController != null)
+        if(!hitBall && ballController != null)
         {
             BallType otherBallType = ballController.getBallType();
             _gameController.OnWhiteBallFirstHit(this, otherBallType);
+            hitBall = true;
         }
     }
 }
