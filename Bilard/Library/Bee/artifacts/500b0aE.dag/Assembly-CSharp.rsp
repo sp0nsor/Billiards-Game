@@ -334,6 +334,7 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/BallController.cs"
 "Assets/Scripts/GameController.cs"
+"Assets/Scripts/MainMenuController.cs"
 "Assets/Scripts/PhysicsController.cs"
 "Assets/Scripts/PocketController.cs"
 "Assets/Scripts/UIManager.cs"

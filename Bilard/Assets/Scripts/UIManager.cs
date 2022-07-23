@@ -4,20 +4,25 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameMenu;
-    [SerializeField] private GameObject settings;
-    [SerializeField] private Slider massSlider, dragSlider, angDragSlider;
-    [SerializeField] private TextMeshProUGUI massText, dragText, angDragText;
+    [SerializeField] private GameObject settings, powerSliderGO, endMessage;
+    [SerializeField] private Slider massSlider, dragSlider, angDragSlider, shotPowerSlider;
+    [SerializeField] private TextMeshProUGUI massText, dragText, angDragText, endMessageText;
     [SerializeField] private Sprite[] Ball2DSprites = new Sprite[15];
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private Image[] player1Balls, player2Balls;
-
+    [SerializeField] private Image shotPowerSliderFill;
+    [SerializeField] private RectTransform canvas;
+    [SerializeField]private Camera mainCam, uiCam;
+    [SerializeField] private Color fillColor;
     private void Start() {
         SetupUI();
         SetUpSliders();
         UpdateSliders();
+        mainCam = Camera.main;
     }
     public void ShowGameMenu()
     {
@@ -120,13 +125,41 @@ public class UIManager : MonoBehaviour
     }
     public void onMainMenuButtonClick()
     {
-        // goes back to main menu
+        SceneManager.LoadScene("Main menu");
     }
     public void onExitButtonClick()
     {
         //exit game
         Application.Quit();
     }
+    #region Shot Power Slider
+    public void EnableShotSlider(Vector3 pos)
+    {
+        var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.1f,0,0));
+        screen.z = (canvas.transform.position - uiCam.transform.position).magnitude;
+        var position = uiCam.ScreenToWorldPoint(screen);
+        shotPowerSlider.transform.position = position;
+        powerSliderGO.SetActive(true);
+        shotPowerSlider.enabled = true;
+    }
+    public void DisableShotSlider(){
+        powerSliderGO.SetActive(false);
+        shotPowerSlider.enabled = false;
+        shotPowerSlider.value = 1;
+    }
+    public void UpdateShotSlider(float shotPower){
+        shotPowerSlider.value = shotPower;
+        float red, green, blue;
+        red = 5.1f * shotPower;
+        green = 255 - 5.1f*(shotPower-50);
+        blue = 0;
+        red = Mathf.Clamp(red, 0, 255);
+        green = Mathf.Clamp(green, 0, 255);
+        fillColor = new Color32((byte)red, (byte)green, (byte) blue, 255);
+        shotPowerSliderFill.color = fillColor;
+
+    }
+    #endregion
     public void SetupUI()
     {
         for(int i=0;i<player1Balls.Count();i++)
@@ -152,5 +185,9 @@ public class UIManager : MonoBehaviour
             player2Balls[i].enabled = true;
             player2Balls[i].sprite = Ball2DSprites[PocketedBallsP2[i]-1];
         }
+    }
+    public void OnPlayAgainButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

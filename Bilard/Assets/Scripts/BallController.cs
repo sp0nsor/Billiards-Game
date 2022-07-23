@@ -28,9 +28,9 @@ public class BallController : MonoBehaviour
         {
         Vector3 objectDir = transform.forward;
         Vector3 otherNormal =  other.GetContact(0).normal;
-        Debug.Log(_rb.velocity);
+
         _rb.velocity = Vector3.Reflect(_rb.velocity, otherNormal);
-        Debug.Log(_rb.velocity);
+
         _rb.angularVelocity = -_rb.angularVelocity;
         }
     }
@@ -76,13 +76,14 @@ public class BallController : MonoBehaviour
         PhysicsController.physicsDelegate -= ApplyPhysics;
         Destroy(gameObject, 2f);
         }
-        if(ballType == BallType.WHITE)
-        {
-            //
-            //gameObject.SetActive(false);
-        }
     }
     // BUG after foul ball falls through table
+    public void SetEndGameState()
+    {
+        _rb.useGravity = false;
+        _rb.velocity = Vector3.zero;
+        StopCoroutine(ManageVelocityEnum());
+    }
     public void TakeToWaitingPoint()
     {
         _rb.useGravity = false;
