@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class WhiteBallController : MonoBehaviour
 {
-    public GameObject pool;
-    [SerializeField]
-    private Slider slider;
+    public GameObject stick;
+    [SerializeField] private Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
     private SphereCollider sphColl;
@@ -15,24 +14,24 @@ public class WhiteBallController : MonoBehaviour
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    private bool isFoul = false, hitBall = false, pressingButton;
-    private bool areBallsMoving = false;
+    [SerializeField]private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
+    private Coroutine handleShotPowerCoroutine;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         sphColl = GetComponent<SphereCollider>();
         _uiManager = FindObjectOfType<UIManager>();
-        pool.transform.position = transform.position - new Vector3(0, 0, 0.01f);
+        //stick.transform.position = transform.position - new Vector3(0, 0, 0.01f);
         mainCam = Camera.main;
         _gameController = GameController.instance;
         lineRenderer = FindObjectOfType<LineRenderer>();
+        stickHit = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!areBallsMoving)
@@ -43,18 +42,39 @@ public class WhiteBallController : MonoBehaviour
                 FoulState();
                 return;
             }
+            if(Input.GetMouseButtonDown(0))
+            {
+                Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                currentYaw = CalculateDegree(transform.position, hit.point);
+            }
             ManageLine();
+            //Debug.Log(stickHit);
         }
     }
     private void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
-            StartCoroutine(HandleShotPower());
+            handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
+            //StartCoroutine(HandleShotPower());
         }
-        ManageRotation();
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isTakingShot && Time.timeScale != 0)
+        {
+            StopCoroutine(handleShotPowerCoroutine);
+            handleShotPowerCoroutine = null;
+            shotPower = 1;
+            _uiManager.DisableShotSlider();
+            isTakingShot = false;
+        }
+        
+            ManageRotation();
 
     }
+    private void FixedUpdate() {
+        
+    }
+    // method that manages rotation of stick and force that will be used to shoot ball
     private void ManageRotation()
     {
         horizontalAxis = Input.GetAxisRaw("Horizontal");
@@ -67,13 +87,18 @@ public class WhiteBallController : MonoBehaviour
         {
             yawSpeedPlus = 0;
         }
-        pool.transform.position = transform.position - new Vector3(0, 0, 0.1f);
-        pool.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-        pool.transform.LookAt(transform.position);
+        float distanceFromBall = 0.1f + (0.2f*shotPower/100);
+        if(!isTakingShot){
+            stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+            stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+            stick.transform.LookAt(transform.position);
+        }
+        
 
-        shotAngle = pool.transform.eulerAngles.y;
-        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, 3);
+        shotAngle = stick.transform.eulerAngles.y;
+        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
     }
+    // method that manages line being drawn by Line Renderer
     private void ManageLine()
     {
         lineRenderer.enabled = true;
@@ -81,16 +106,13 @@ public class WhiteBallController : MonoBehaviour
         Physics.Raycast(transform.position, shotForce, out raycastHit);
         Vector3 startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z),
         targetPosition = new Vector3(raycastHit.point.x, raycastHit.point.y, raycastHit.point.z);
-        Vector3 tempVec = targetPosition - startPosition;
-        float tang = tempVec.z / tempVec.x;
-        float angle = Mathf.Atan(tang);
-        float angleDegrees = angle*Mathf.Rad2Deg;
-        Debug.Log(angleDegrees);
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, targetPosition);
     }
+    // As name says its a Coroutine that increases shot power by 1 every 30ms until spacebar is no longer pressed, then it calls Shoot method
     private IEnumerator HandleShotPower()
     {
+        isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
         yield return new WaitForSeconds(0.03f);
         while (true)
@@ -101,22 +123,36 @@ public class WhiteBallController : MonoBehaviour
             {
                 shotPower += 1;
                 _uiManager.UpdateShotSlider(shotPower);
+                float distanceFromBall = 0.1f + (0.2f*shotPower/100);
+                
+                stick.transform.position = transform.position -  new Vector3(0, 0, distanceFromBall);
+                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+                stick.transform.LookAt(transform.position);
             }
             yield return new WaitForSeconds(0.03f);
         }
+        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
+        while (!stickHit)
+        {
+            Debug.Log(shotForce);
+            stick.transform.position += shotForce*Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        stick.SetActive(false);
+        stickHit = false;
         _uiManager.DisableShotSlider();
         lineRenderer.enabled = false;
         Shoot();
+        isTakingShot = false;
         shotPower = 1;
 
     }
+    // Method that shoots white ball with force calculated from current rotation of stick
     private void Shoot()
     {
-        float degree = pool.transform.rotation.y;
         //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         rb.AddForce(shotForce, ForceMode.Impulse);
-        pool.SetActive(false);
         StartCoroutine(WaitForBallsToStop());
     }
     private void OnDrawGizmos()
@@ -130,21 +166,46 @@ public class WhiteBallController : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;
         sphColl.enabled = false;
-        pool.SetActive(false);
+        stick.SetActive(false);
         if (Time.timeScale != 0)
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                transform.position = hit.point;
+                transform.position = new Vector3(hit.point.x, 0, hit.point.z);
             if (Input.GetMouseButtonDown(0))
             {
                 _gameController.EndFoul();
                 rb.useGravity = true;
                 rb.isKinematic = false;
                 sphColl.enabled = true;
-                pool.SetActive(true);
+                stick.SetActive(true);
             }
         }
+    }
+    // Method that calculates degrees in Y-axis considering Camera's WorldSpace
+    public float CalculateDegree(Vector3 from, Vector3 to)
+    {
+        float degree, tang, result;
+        Vector3 vectorBetween = to - from;
+        tang = vectorBetween.x/vectorBetween.z;
+        degree = Mathf.Atan(tang);
+        if(vectorBetween.x > 0 && vectorBetween.z > 0)
+        {
+            result = degree*Mathf.Rad2Deg;
+            return result;
+        }
+        if(vectorBetween.x > 0 && vectorBetween.z < 0)
+        {
+            result = 90 + degree*Mathf.Rad2Deg + 90;
+            return result;
+        }
+        if(vectorBetween.x < 0 && vectorBetween.z < 0)
+        {
+            result = 180 + degree*Mathf.Rad2Deg;
+            return result;
+        }
+        result = 270 + degree*Mathf.Rad2Deg + 90;
+        return result;
     }
     public IEnumerator WaitForBallsToStop()
     {
@@ -157,7 +218,7 @@ public class WhiteBallController : MonoBehaviour
         areBallsMoving = false;
         if (!hitBall)
             _gameController.Foul();
-        pool.SetActive(true);
+        stick.SetActive(true);
         _gameController.CheckChangeTurn();
         hitBall = false;
     }
@@ -169,6 +230,12 @@ public class WhiteBallController : MonoBehaviour
             BallType otherBallType = ballController.getBallType();
             _gameController.OnWhiteBallFirstHit(this, otherBallType);
             hitBall = true;
+        }
+    }
+    private void OnTriggerEnter(Collider other) {
+        if(other.tag == "Stick")
+        {
+            stickHit = true;
         }
     }
 }

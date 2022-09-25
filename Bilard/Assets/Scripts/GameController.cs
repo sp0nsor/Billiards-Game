@@ -6,8 +6,8 @@ public enum GameState { START, PLAYER1TURN, PLAYER2TURN, END }
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameState _gameState = GameState.START;
-    private GameState previousState = GameState.START;
-    [SerializeField] private bool foul, playerPocketedBall;
+    //private GameState previousState = GameState.START;
+    [SerializeField] private bool foul;
     [SerializeField] private BallType player1BType = BallType.NULL, player2BType = BallType.NULL;
     [SerializeField] private PocketType player1ChosenPocket, player2ChosenPocket;
     [SerializeField] private LayerMask tableLayer;
@@ -29,7 +29,6 @@ public class GameController : MonoBehaviour
             instance = this;
         }
         foul = false;
-        playerPocketedBall = false;
         _gameState = GameState.PLAYER1TURN;
 
     }
@@ -37,6 +36,7 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
+        
         //QualitySettings.vSyncCount = 0;
         //Application.targetFrameRate = 60;
 
@@ -89,6 +89,25 @@ public class GameController : MonoBehaviour
                 //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                 ballController.TakeToWaitingPoint();
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+                return;
+            }
+            if (ballType == BallType.BLACK)
+            {
+                string winner = "";
+                if (_gameState == GameState.PLAYER1TURN)
+                {
+                        winner = "Player 2 wins!";
+                        P1PocketedBalls.Add(ballController.getBallNumber());
+                }
+                else
+                {
+                    winner = "Player 1 wins!";
+                    P2PocketedBalls.Add(ballController.getBallNumber());
+                }
+                RemoveFromBalls(ballController);
+                _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+                _gameState = GameState.END;
+                _uiManager.OnGameEnd(winner);
             }
 
         }
@@ -111,7 +130,6 @@ public class GameController : MonoBehaviour
                     }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
-                    //CheckChangeTurn();
                     break;
                 case BallType.FULL:
                     if (player1BType == BallType.FULL)
@@ -128,19 +146,16 @@ public class GameController : MonoBehaviour
                     }
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
-                    //CheckChangeTurn();
                     break;
                 case BallType.WHITE:
-                    //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                     foul = true;
                     ballController.TakeToWaitingPoint();
-                    //CheckChangeTurn();
                     break;
                 case BallType.BLACK:
                     string winner = "";
                     if (_gameState == GameState.PLAYER1TURN)
                     {
-                        winner = P1PocketedBalls.Count == 7 && !foul ? "Player 1" : "Player 2";
+                        winner = P1PocketedBalls.Count == 7 && !foul ? "Player 1 wins" : "Player 2 wins";
                         P1PocketedBalls.Add(ballController.getBallNumber());
                     }
                     if (_gameState == GameState.PLAYER2TURN)
@@ -151,8 +166,7 @@ public class GameController : MonoBehaviour
                     RemoveFromBalls(ballController);
                     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                     _gameState = GameState.END;
-                    // Update UI
-                    // UI show message Player X wins!.
+                    _uiManager.OnGameEnd(winner);
                     break;
             }
         }

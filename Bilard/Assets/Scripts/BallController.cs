@@ -16,13 +16,10 @@ public class BallController : MonoBehaviour
     private void Awake() {
         _rb = GetComponent<Rigidbody>();
         PhysicsController.physicsDelegate += ApplyPhysics;
-        StartCoroutine(ManageVelocityEnum());
+        //StartCoroutine(ManageVelocityEnum());
     }
     private void Update() {
-        //ManageVelocity();
-
     }
-    //BUG
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Band")
         {
@@ -34,7 +31,6 @@ public class BallController : MonoBehaviour
         _rb.angularVelocity = -_rb.angularVelocity;
         }
     }
-    // Nieidalne, gdyż zależy od klatek na sekundę
     public void ManageVelocity()
     {
         _rb.velocity = _rb.velocity * 0.9985f;
@@ -49,14 +45,14 @@ public class BallController : MonoBehaviour
     {
         while(true)
         {
-            _rb.velocity = _rb.velocity * 0.999f;
-            _rb.angularVelocity = _rb.angularVelocity * 0.999f;
-            //if(ballType == BallType.WHITE){Debug.Log(_rb.velocity);}
+            _rb.velocity = _rb.velocity * 0.991f;
+            _rb.angularVelocity = _rb.angularVelocity * 0.991f;
         if(Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0001f)){
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
-        yield return new WaitForEndOfFrame();
+        //yield return new WaitForEndOfFrame();
+        yield return new WaitForFixedUpdate();
         }
     }
     public void ApplyPhysics()

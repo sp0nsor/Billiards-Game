@@ -13,7 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI massText, dragText, angDragText, endMessageText;
     [SerializeField] private Sprite[] Ball2DSprites = new Sprite[15];
     [SerializeField] private TextMeshProUGUI turnText;
-    [SerializeField] private Image[] player1Balls, player2Balls;
+    [SerializeField] private GameObject[] player1Balls, player2Balls;
+    //[SerializeField] private Image[] player1Balls, player2Balls;
     [SerializeField] private Image shotPowerSliderFill;
     [SerializeField] private RectTransform canvas;
     [SerializeField]private Camera mainCam, uiCam;
@@ -125,6 +126,7 @@ public class UIManager : MonoBehaviour
     }
     public void onMainMenuButtonClick()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Main menu");
     }
     public void onExitButtonClick()
@@ -133,6 +135,7 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
     #region Shot Power Slider
+    // Enables Shot Slider above given position
     public void EnableShotSlider(Vector3 pos)
     {
         var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.1f,0,0));
@@ -164,11 +167,13 @@ public class UIManager : MonoBehaviour
     {
         for(int i=0;i<player1Balls.Count();i++)
         {
-            player1Balls[i].enabled = false;
+            Image ballImage = player1Balls[i].GetComponent<Image>();
+            ballImage.enabled = false;
         }
         for(int i=0;i<player2Balls.Count();i++)
         {
-            player2Balls[i].enabled = false;
+            Image ballImage = player2Balls[i].GetComponent<Image>();
+            ballImage.enabled = false;
         }
         turnText.text = GameController.instance.GetGameState() == GameState.PLAYER1TURN ? "P1 TURN" : "P2 TURN";
     }
@@ -177,14 +182,23 @@ public class UIManager : MonoBehaviour
         turnText.text = GameController.instance.GetGameState() == GameState.PLAYER1TURN ? "P1 TURN" : "P2 TURN";
         for(int i=0; i<PocketedBallsP1.Count; i++)
         {
-            player1Balls[i].enabled = true;
-            player1Balls[i].sprite = Ball2DSprites[PocketedBallsP1[i]-1];
+            Image ballImage = player1Balls[i].GetComponent<Image>();
+            ballImage.sprite = Ball2DSprites[PocketedBallsP1[i]-1];
+            ballImage.enabled = true;
         }
         for(int i=0; i<PocketedBallsP2.Count; i++)
         {
-            player2Balls[i].enabled = true;
-            player2Balls[i].sprite = Ball2DSprites[PocketedBallsP2[i]-1];
+            Image ballImage = player2Balls[i].GetComponent<Image>();
+            ballImage.sprite = Ball2DSprites[PocketedBallsP2[i]-1];
+            ballImage.enabled = true;
+            
         }
+    }
+    public void OnGameEnd(string message)
+    {
+        endMessageText.text = message;
+        endMessage.SetActive(true);
+        Time.timeScale = 0;
     }
     public void OnPlayAgainButton()
     {
