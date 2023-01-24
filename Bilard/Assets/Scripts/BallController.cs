@@ -20,6 +20,13 @@ public class BallController : MonoBehaviour
     }
     private void Update() {
     }
+    private void LateUpdate() {
+        if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0008f))
+            {
+                _rb.velocity = Vector3.zero;
+                _rb.angularVelocity = Vector3.zero;
+            }
+    }
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Band")
         {

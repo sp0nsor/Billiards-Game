@@ -20,12 +20,13 @@ public class WhiteBallController : MonoBehaviour
     private GameController _gameController;
     private UIManager _uiManager;
     private Coroutine handleShotPowerCoroutine;
+    private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f); 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         sphColl = GetComponent<SphereCollider>();
         _uiManager = FindObjectOfType<UIManager>();
-        //stick.transform.position = transform.position - new Vector3(0, 0, 0.01f);
         mainCam = Camera.main;
         _gameController = GameController.instance;
         lineRenderer = FindObjectOfType<LineRenderer>();
@@ -42,14 +43,13 @@ public class WhiteBallController : MonoBehaviour
                 FoulState();
                 return;
             }
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             {
                 Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
                 currentYaw = CalculateDegree(transform.position, hit.point);
             }
             ManageLine();
-            //Debug.Log(stickHit);
         }
     }
     private void LateUpdate()
@@ -71,9 +71,7 @@ public class WhiteBallController : MonoBehaviour
             ManageRotation();
 
     }
-    private void FixedUpdate() {
-        
-    }
+
     // method that manages rotation of stick and force that will be used to shoot ball
     private void ManageRotation()
     {
@@ -114,7 +112,7 @@ public class WhiteBallController : MonoBehaviour
     {
         isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
-        yield return new WaitForSeconds(0.03f);
+        yield return shotPoweringUpTime;
         while (true)
         {
             if (!Input.GetKey(KeyCode.Space))
@@ -129,14 +127,14 @@ public class WhiteBallController : MonoBehaviour
                 stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
                 stick.transform.LookAt(transform.position);
             }
-            yield return new WaitForSeconds(0.03f);
+            yield return shotPoweringUpTime;
         }
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         while (!stickHit)
         {
             Debug.Log(shotForce);
             stick.transform.position += shotForce*Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            yield return waitForEndOfFrame;
         }
         stick.SetActive(false);
         stickHit = false;
@@ -171,7 +169,7 @@ public class WhiteBallController : MonoBehaviour
         {
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+                transform.position = new Vector3(hit.point.x, hit.point.y + 0.04f, hit.point.z);
             if (Input.GetMouseButtonDown(0))
             {
                 _gameController.EndFoul();
@@ -210,10 +208,10 @@ public class WhiteBallController : MonoBehaviour
     public IEnumerator WaitForBallsToStop()
     {
         areBallsMoving = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return waitForBallsStopTime;
         while (_gameController.AreBallsMoving())
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return waitForBallsStopTime;
         }
         areBallsMoving = false;
         if (!hitBall)

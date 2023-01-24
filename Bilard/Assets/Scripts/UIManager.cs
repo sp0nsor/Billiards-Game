@@ -160,7 +160,6 @@ public class UIManager : MonoBehaviour
         green = Mathf.Clamp(green, 0, 255);
         fillColor = new Color32((byte)red, (byte)green, (byte) blue, 255);
         shotPowerSliderFill.color = fillColor;
-
     }
     #endregion
     public void SetupUI()
