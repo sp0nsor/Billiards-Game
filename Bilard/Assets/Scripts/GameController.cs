@@ -160,7 +160,7 @@ public class GameController : MonoBehaviour
                     }
                     if (_gameState == GameState.PLAYER2TURN)
                     {
-                        winner = P2PocketedBalls.Count == 7 && !foul ? "Player 2" : "Player 1";
+                        winner = P2PocketedBalls.Count == 7 && !foul ? "Player 2 wins" : "Player 1 wins";
                         P2PocketedBalls.Add(ballController.getBallNumber());
                     }
                     RemoveFromBalls(ballController);
@@ -171,6 +171,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+    
     public void OnWhiteBallFirstHit(WhiteBallController whiteBallController, BallType otherBallType)
     {
         if (player1BType != BallType.NULL)
