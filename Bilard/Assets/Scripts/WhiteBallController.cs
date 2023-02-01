@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 public class WhiteBallController : MonoBehaviour
 {
-    public GameObject stick;
-    [SerializeField] private Slider slider;
+    [SerializeField] protected GameObject stick;
+    [SerializeField] protected Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
     private SphereCollider sphColl;
     private bool timeToShoot = true;
-    [SerializeField] private float yawSpeed;
-    [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
+    [SerializeField] protected float yawSpeed;
+    private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField]private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false;
+    private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
@@ -22,7 +22,7 @@ public class WhiteBallController : MonoBehaviour
     private Coroutine handleShotPowerCoroutine;
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f); 
-    void Start()
+    protected void Start()
     {
         rb = GetComponent<Rigidbody>();
         sphColl = GetComponent<SphereCollider>();
@@ -33,7 +33,7 @@ public class WhiteBallController : MonoBehaviour
         stickHit = false;
     }
 
-    void Update()
+    protected void Update()
     {
         if (!areBallsMoving)
         {
@@ -52,7 +52,7 @@ public class WhiteBallController : MonoBehaviour
             ManageLine();
         }
     }
-    private void LateUpdate()
+    protected void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
@@ -67,7 +67,6 @@ public class WhiteBallController : MonoBehaviour
             _uiManager.DisableShotSlider();
             isTakingShot = false;
         }
-        
             ManageRotation();
 
     }
@@ -146,7 +145,7 @@ public class WhiteBallController : MonoBehaviour
 
     }
     // Method that shoots white ball with force calculated from current rotation of stick
-    private void Shoot()
+    protected void Shoot()
     {
         //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
@@ -181,7 +180,7 @@ public class WhiteBallController : MonoBehaviour
         }
     }
     // Method that calculates degrees in Y-axis considering Camera's WorldSpace
-    public float CalculateDegree(Vector3 from, Vector3 to)
+    private float CalculateDegree(Vector3 from, Vector3 to)
     {
         float degree, tang, result;
         Vector3 vectorBetween = to - from;
@@ -205,7 +204,7 @@ public class WhiteBallController : MonoBehaviour
         result = 270 + degree*Mathf.Rad2Deg + 90;
         return result;
     }
-    public IEnumerator WaitForBallsToStop()
+    private IEnumerator WaitForBallsToStop()
     {
         areBallsMoving = true;
         yield return waitForBallsStopTime;

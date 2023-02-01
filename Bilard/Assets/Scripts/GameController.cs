@@ -213,10 +213,8 @@ public class GameController : MonoBehaviour
     {
         return waitingPoint;
     }
-    //TODO Finish CheckChangeTurn
     public void CheckChangeTurn()
     {
-
         if (!didPocketOwnBall)
         {
             _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
@@ -255,34 +253,9 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
-        //Debug.Log(temp);
         return temp;
     }
-    /*
-    public IEnumerator AreBallsMovingEnumerator()
-    {
-        bool areMoving = true;
-        yield return new WaitForSeconds(0.1f);
-        while(areMoving)
-        {
-        foreach (BallController ballController in Balls)
-        {
-            if(ballController.isMoving())
-            {
-                areMoving = true;
-                break;
-            }
-            else
-            {
-                areMoving = false;
-            }
-        }
-        yield return new WaitForSeconds(0.1f);
-        Debug.Log(areMoving);
-        }
-        yield return areMoving;
-    }
-    */
+
     public void RemoveFromBalls(BallController ballController)
     {
 
