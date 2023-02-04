@@ -3069,21 +3069,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 58b6fe6b547f505428fb698a96cf1cb3, type: 3}
   m_PrefabInstance: {fileID: 936075928}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &327105781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 327105780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
-  slider: {fileID: 1754453788}
-  yawSpeed: 44
 --- !u!54 &327105784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3228,6 +3213,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &327105789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327105780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886fad4076dba2b478bfe8a595c1ce2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+--- !u!114 &327105790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327105780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &327331205
 GameObject:
   m_ObjectHideFlags: 0
@@ -7584,16 +7606,12 @@ MonoBehaviour:
   foul: 0
   player1BType: 0
   player2BType: 0
-  player1ChosenPocket: 0
-  player2ChosenPocket: 0
   tableLayer:
     serializedVersion: 2
     m_Bits: 64
   tableCenter: {x: 0, y: 0, z: 0}
   waitingPoint: {x: 0, y: 0, z: 0}
   _uiManager: {fileID: 391620750}
-  P1PocketedBalls: 
-  P2PocketedBalls: 
   Balls:
   - {fileID: 327105787}
   - {fileID: 539606440}

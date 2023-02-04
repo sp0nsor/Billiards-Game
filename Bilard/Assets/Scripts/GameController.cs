@@ -9,11 +9,11 @@ public class GameController : MonoBehaviour
     //private GameState previousState = GameState.START;
     [SerializeField] private bool foul;
     [SerializeField] private BallType player1BType = BallType.NULL, player2BType = BallType.NULL;
-    [SerializeField] private PocketType player1ChosenPocket, player2ChosenPocket;
+    private PocketType player1ChosenPocket, player2ChosenPocket;
     [SerializeField] private LayerMask tableLayer;
     [SerializeField] private Vector3 tableCenter, waitingPoint;
     [SerializeField] private UIManager _uiManager;
-    [SerializeField] private List<int> P1PocketedBalls = new List<int>(), P2PocketedBalls = new List<int>();
+    private List<int> P1PocketedBalls = new List<int>(), P2PocketedBalls = new List<int>();
     [SerializeField] private List<BallController> Balls = new List<BallController>();
     private bool didPocketOwnBall = false;
     public static GameController instance;
@@ -36,10 +36,6 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
-        
-        //QualitySettings.vSyncCount = 0;
-        //Application.targetFrameRate = 60;
-
     }
 
     // Update is called once per frame
@@ -52,8 +48,6 @@ public class GameController : MonoBehaviour
                 _uiManager.ShowGameMenu();
             }
         }
-        //if(Application.targetFrameRate != 60) {Application.targetFrameRate = 60;}
-        //AreBallsMoving();
     }
     
     public void CheckPocketedBall(BallController ballController, PocketType pocketType)
@@ -64,7 +58,6 @@ public class GameController : MonoBehaviour
         {
             if (ballType != BallType.WHITE && ballType != BallType.BLACK)
             {
-                //player1BType = _gameState == GameState.PLAYER1TURN ? ballType : otherBallType;
                 if (_gameState == GameState.PLAYER1TURN)
                 {
                     player1BType = ballType;
@@ -86,7 +79,6 @@ public class GameController : MonoBehaviour
             if (ballType == BallType.WHITE)
             {
                 foul = true;
-                //_gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
                 ballController.TakeToWaitingPoint();
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 return;
@@ -258,7 +250,6 @@ public class GameController : MonoBehaviour
 
     public void RemoveFromBalls(BallController ballController)
     {
-
         Balls.Remove(ballController);
         Debug.Log("Removed ball nr " + ballController.getBallNumber());
 

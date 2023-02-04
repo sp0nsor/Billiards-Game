@@ -7,7 +7,7 @@ public class WhiteBallController : MonoBehaviour
     [SerializeField] protected GameObject stick;
     [SerializeField] protected Slider slider;
     private LineRenderer lineRenderer;
-    private Rigidbody rb;
+    protected Rigidbody rb;
     private SphereCollider sphColl;
     private bool timeToShoot = true;
     [SerializeField] protected float yawSpeed;
@@ -21,8 +21,14 @@ public class WhiteBallController : MonoBehaviour
     private UIManager _uiManager;
     private Coroutine handleShotPowerCoroutine;
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f); 
-    protected void Start()
+    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
+    protected virtual void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        sphColl = GetComponent<SphereCollider>();
+        stickHit = false;
+    } 
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
         sphColl = GetComponent<SphereCollider>();
@@ -30,10 +36,9 @@ public class WhiteBallController : MonoBehaviour
         mainCam = Camera.main;
         _gameController = GameController.instance;
         lineRenderer = FindObjectOfType<LineRenderer>();
-        stickHit = false;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (!areBallsMoving)
         {
@@ -52,7 +57,7 @@ public class WhiteBallController : MonoBehaviour
             ManageLine();
         }
     }
-    protected void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
@@ -139,16 +144,16 @@ public class WhiteBallController : MonoBehaviour
         stickHit = false;
         _uiManager.DisableShotSlider();
         lineRenderer.enabled = false;
-        Shoot();
+        Shoot(shotForce);
         isTakingShot = false;
         shotPower = 1;
 
     }
     // Method that shoots white ball with force calculated from current rotation of stick
-    protected void Shoot()
+    protected virtual void Shoot(Vector3 force)
     {
         //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
-        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
+        // shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         rb.AddForce(shotForce, ForceMode.Impulse);
         StartCoroutine(WaitForBallsToStop());
     }
