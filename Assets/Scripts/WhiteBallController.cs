@@ -14,7 +14,7 @@ public class WhiteBallController : MonoBehaviour
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField] private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false;
+    [SerializeField] private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
@@ -22,6 +22,7 @@ public class WhiteBallController : MonoBehaviour
     private Coroutine handleShotPowerCoroutine;
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
+    private static WhiteBallController currentActiveBall;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -239,6 +240,14 @@ public class WhiteBallController : MonoBehaviour
             stickHit = true;
         }
     }
+    public static void SetCurrentActiveBall(WhiteBallController ball)
+    {
+        currentActiveBall = ball;
+    }
+    public static WhiteBallController CurrentActiveBall
+    {
+        get { return currentActiveBall; }
+    }
     public void EnabledController()
     {
         enabled = true;
@@ -246,5 +255,9 @@ public class WhiteBallController : MonoBehaviour
     public void DisableController()
     {
         enabled = false;
+    }
+    public bool IsControllerEnabled()
+    {
+        return enabled;
     }
 }
