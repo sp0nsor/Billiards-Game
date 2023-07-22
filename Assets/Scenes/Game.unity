@@ -773,7 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballType: 4
+  ballType: 2
   ballNumber: 8
 --- !u!82 &87503864
 AudioSource:
@@ -895,6 +895,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &87503872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3128,7 +3129,8 @@ MonoBehaviour:
   areBallsMoving: 0
   stickHit: 0
   isTakingShot: 0
-  triangleBroken: 0
+  triangleBroken: 1
+  isControllerEnabled: 1
 --- !u!54 &327105784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3175,7 +3177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballType: 1
+  ballType: 3
   ballNumber: 0
 --- !u!82 &327105788
 AudioSource:
@@ -3273,6 +3275,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &327105791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327105780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &327331205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3950,6 +3964,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &364777584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4813,6 +4828,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &426169503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6181,6 +6197,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &539606449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6487,6 +6504,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &558366971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7765,6 +7783,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &659542727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8583,6 +8602,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &724455481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11693,6 +11713,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1001057020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12425,6 +12446,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1056497386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14432,6 +14454,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1268695995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14956,6 +14979,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1297464480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15860,6 +15884,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1378468530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16794,6 +16819,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1448349254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18051,6 +18077,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1575759315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20047,6 +20074,7 @@ MonoBehaviour:
   stickHit: 0
   isTakingShot: 0
   triangleBroken: 0
+  isControllerEnabled: 1
 --- !u!114 &1733997762
 MonoBehaviour:
   m_ObjectHideFlags: 0
