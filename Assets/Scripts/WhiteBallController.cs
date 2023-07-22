@@ -14,14 +14,14 @@ public class WhiteBallController : MonoBehaviour
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField]private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false;
+    [SerializeField] private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
     private Coroutine handleShotPowerCoroutine;
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
-    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f); 
+    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,11 +43,11 @@ public class WhiteBallController : MonoBehaviour
                 FoulState();
                 return;
             }
-            if(Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+            if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             {
                 Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                currentYaw = CalculateDegree(transform.position, hit.point);
+                if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                    currentYaw = CalculateDegree(transform.position, hit.point);
             }
             ManageLine();
         }
@@ -67,8 +67,8 @@ public class WhiteBallController : MonoBehaviour
             _uiManager.DisableShotSlider();
             isTakingShot = false;
         }
-        
-            ManageRotation();
+
+        ManageRotation();
 
     }
 
@@ -85,13 +85,14 @@ public class WhiteBallController : MonoBehaviour
         {
             yawSpeedPlus = 0;
         }
-        float distanceFromBall = 0.1f + (0.2f*shotPower/100);
-        if(!isTakingShot){
+        float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+        if (!isTakingShot)
+        {
             stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
             stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
             stick.transform.LookAt(transform.position);
         }
-        
+
 
         shotAngle = stick.transform.eulerAngles.y;
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
@@ -121,9 +122,9 @@ public class WhiteBallController : MonoBehaviour
             {
                 shotPower += 1;
                 _uiManager.UpdateShotSlider(shotPower);
-                float distanceFromBall = 0.1f + (0.2f*shotPower/100);
-                
-                stick.transform.position = transform.position -  new Vector3(0, 0, distanceFromBall);
+                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+
+                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
                 stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
                 stick.transform.LookAt(transform.position);
             }
@@ -133,7 +134,7 @@ public class WhiteBallController : MonoBehaviour
         while (!stickHit)
         {
             Debug.Log(shotForce);
-            stick.transform.position += shotForce*Time.deltaTime;
+            stick.transform.position += shotForce * Time.deltaTime;
             yield return waitForEndOfFrame;
         }
         stick.SetActive(false);
@@ -151,6 +152,7 @@ public class WhiteBallController : MonoBehaviour
         //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         rb.AddForce(shotForce, ForceMode.Impulse);
+        DisableController();
         StartCoroutine(WaitForBallsToStop());
     }
     private void OnDrawGizmos()
@@ -185,24 +187,24 @@ public class WhiteBallController : MonoBehaviour
     {
         float degree, tang, result;
         Vector3 vectorBetween = to - from;
-        tang = vectorBetween.x/vectorBetween.z;
+        tang = vectorBetween.x / vectorBetween.z;
         degree = Mathf.Atan(tang);
-        if(vectorBetween.x > 0 && vectorBetween.z > 0)
+        if (vectorBetween.x > 0 && vectorBetween.z > 0)
         {
-            result = degree*Mathf.Rad2Deg;
+            result = degree * Mathf.Rad2Deg;
             return result;
         }
-        if(vectorBetween.x > 0 && vectorBetween.z < 0)
+        if (vectorBetween.x > 0 && vectorBetween.z < 0)
         {
-            result = 90 + degree*Mathf.Rad2Deg + 90;
+            result = 90 + degree * Mathf.Rad2Deg + 90;
             return result;
         }
-        if(vectorBetween.x < 0 && vectorBetween.z < 0)
+        if (vectorBetween.x < 0 && vectorBetween.z < 0)
         {
-            result = 180 + degree*Mathf.Rad2Deg;
+            result = 180 + degree * Mathf.Rad2Deg;
             return result;
         }
-        result = 270 + degree*Mathf.Rad2Deg + 90;
+        result = 270 + degree * Mathf.Rad2Deg + 90;
         return result;
     }
     public IEnumerator WaitForBallsToStop()
@@ -230,10 +232,19 @@ public class WhiteBallController : MonoBehaviour
             hitBall = true;
         }
     }
-    private void OnTriggerEnter(Collider other) {
-        if(other.tag == "Stick")
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Stick")
         {
             stickHit = true;
         }
+    }
+    public void EnabledController()
+    {
+        enabled = true;
+    }
+    public void DisableController()
+    {
+        enabled = false;
     }
 }

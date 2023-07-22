@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
-        
+
         //QualitySettings.vSyncCount = 0;
         //Application.targetFrameRate = 60;
 
@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         //if(Application.targetFrameRate != 60) {Application.targetFrameRate = 60;}
         //AreBallsMoving();
     }
-    
+
     public void CheckPocketedBall(BallController ballController, PocketType pocketType)
     {
         BallType ballType = ballController.getBallType();
@@ -96,8 +96,8 @@ public class GameController : MonoBehaviour
                 string winner = "";
                 if (_gameState == GameState.PLAYER1TURN)
                 {
-                        winner = "Player 2 wins!";
-                        P1PocketedBalls.Add(ballController.getBallNumber());
+                    winner = "Player 2 wins!";
+                    P1PocketedBalls.Add(ballController.getBallNumber());
                 }
                 else
                 {
@@ -171,7 +171,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-    
+
     public void OnWhiteBallFirstHit(WhiteBallController whiteBallController, BallType otherBallType)
     {
         if (player1BType != BallType.NULL)
@@ -191,12 +191,12 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if(_gameState == GameState.PLAYER1TURN && P1PocketedBalls.Count != 7)
+                if (_gameState == GameState.PLAYER1TURN && P1PocketedBalls.Count != 7)
                 {
                     foul = true;
                     return;
                 }
-                if(_gameState == GameState.PLAYER2TURN && P2PocketedBalls.Count != 7)
+                if (_gameState == GameState.PLAYER2TURN && P2PocketedBalls.Count != 7)
                 {
                     foul = true;
                     return;
