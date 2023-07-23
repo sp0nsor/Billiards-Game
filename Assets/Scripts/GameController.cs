@@ -62,14 +62,18 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.HALF)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                    /*if (!didPocketOwnBall)
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;*/
+                    _gameState = GameState.PLAYER2TURN;
+                    didPocketOwnBall = true;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                    /*if (!didPocketOwnBall)
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;*/
+                    _gameState = GameState.PLAYER2TURN;
+                    didPocketOwnBall = false;
                 }
                 RemoveFromBalls(ballController);
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
@@ -78,14 +82,18 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.FULL)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;
+                    /*if (!didPocketOwnBall)
+                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;*/
+                    _gameState = GameState.PLAYER1TURN;
+                    didPocketOwnBall = false;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;
+                    /*if (!didPocketOwnBall)
+                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;*/
+                    _gameState = GameState.PLAYER1TURN;
+                    didPocketOwnBall = true;
                 }
                 RemoveFromBalls(ballController);
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
