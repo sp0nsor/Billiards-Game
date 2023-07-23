@@ -14,7 +14,7 @@ public class WhiteBallController : MonoBehaviour
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField] private bool isFoul = false, hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
+    [SerializeField] private bool /*isFoul = false,*/ hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
     private Coroutine ballMovingCoroutine;
     private Camera mainCam;
     private GameController _gameController;
@@ -38,12 +38,6 @@ public class WhiteBallController : MonoBehaviour
     {
         if (!areBallsMoving)
         {
-            isFoul = _gameController.IsFoul();
-            if (isFoul)
-            {
-                FoulState();
-                return;
-            }
             if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
             {
                 Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -161,7 +155,7 @@ public class WhiteBallController : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + shotForce);
     }
     // BUG after foul ball falls through table
-    public void FoulState()
+    /*public void FoulState()
     {
         rb.useGravity = false;
         rb.velocity = Vector3.zero;
@@ -182,7 +176,7 @@ public class WhiteBallController : MonoBehaviour
                 stick.SetActive(true);
             }
         }
-    }
+    }*/
     // Method that calculates degrees in Y-axis considering Camera's WorldSpace
     public float CalculateDegree(Vector3 from, Vector3 to)
     {
