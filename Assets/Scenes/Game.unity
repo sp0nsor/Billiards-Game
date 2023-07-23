@@ -889,7 +889,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -3124,7 +3123,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -3958,7 +3956,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -4822,7 +4819,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -6191,7 +6187,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -6498,7 +6493,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -7777,7 +7771,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -8596,7 +8589,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -11707,7 +11699,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -12440,7 +12431,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -14448,7 +14438,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -14973,7 +14962,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -15878,7 +15866,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -16813,7 +16800,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -18071,7 +18057,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
@@ -20068,7 +20053,6 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0

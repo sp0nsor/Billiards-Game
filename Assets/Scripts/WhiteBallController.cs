@@ -222,8 +222,8 @@ public class WhiteBallController : MonoBehaviour
         BallController ballController = other.gameObject.GetComponent<BallController>();
         if (!hitBall && ballController != null)
         {
-            BallType otherBallType = ballController.getBallType();
-            _gameController.OnWhiteBallFirstHit(this, otherBallType);
+            /*BallType otherBallType = ballController.getBallType();
+            _gameController.OnWhiteBallFirstHit(this, otherBallType);*/
             hitBall = true;
         }
     }
