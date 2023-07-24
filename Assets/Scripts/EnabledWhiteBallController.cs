@@ -6,10 +6,11 @@ using UnityEngine;
 public class EnabledWhiteBallController: MonoBehaviour
 {
     private WhiteBallController whiteBallController;
-
+    private BallController ballController;
     private void OnMouseDown()
     {
         whiteBallController = GetComponent<WhiteBallController>();
+        ballController = GetComponent<BallController>();
 
         if (whiteBallController != null)
         {
@@ -17,8 +18,17 @@ public class EnabledWhiteBallController: MonoBehaviour
             {
                 WhiteBallController.CurrentActiveBall.DisableController();
             }
-            whiteBallController.EnabledController();
-            WhiteBallController.SetCurrentActiveBall(whiteBallController);
+            
+            if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.FULL)
+            {
+                whiteBallController.EnabledController();
+                WhiteBallController.SetCurrentActiveBall(whiteBallController);
+            }
+            if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.HALF)
+            {
+                whiteBallController.EnabledController();
+                WhiteBallController.SetCurrentActiveBall(whiteBallController);
+            }
         }
     }
 }
