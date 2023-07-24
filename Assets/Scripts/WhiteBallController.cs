@@ -67,7 +67,6 @@ public class WhiteBallController : MonoBehaviour
 
     }
 
-    // method that manages rotation of stick and force that will be used to shoot ball
     private void ManageRotation()
     {
         horizontalAxis = Input.GetAxisRaw("Horizontal");
@@ -92,7 +91,6 @@ public class WhiteBallController : MonoBehaviour
         shotAngle = stick.transform.eulerAngles.y;
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
     }
-    // method that manages line being drawn by Line Renderer
     private void ManageLine()
     {
         lineRenderer.enabled = true;
@@ -103,7 +101,6 @@ public class WhiteBallController : MonoBehaviour
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, targetPosition);
     }
-    // As name says its a Coroutine that increases shot power by 1 every 30ms until spacebar is no longer pressed, then it calls Shoot method
     private IEnumerator HandleShotPower()
     {
         isTakingShot = true;
@@ -141,7 +138,6 @@ public class WhiteBallController : MonoBehaviour
         shotPower = 1;
 
     }
-    // Method that shoots white ball with force calculated from current rotation of stick
     private void Shoot()
     {
         //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
@@ -154,30 +150,6 @@ public class WhiteBallController : MonoBehaviour
     {
         Gizmos.DrawLine(transform.position, transform.position + shotForce);
     }
-    // BUG after foul ball falls through table
-    /*public void FoulState()
-    {
-        rb.useGravity = false;
-        rb.velocity = Vector3.zero;
-        rb.isKinematic = true;
-        sphColl.enabled = false;
-        stick.SetActive(false);
-        if (Time.timeScale != 0)
-        {
-            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                transform.position = new Vector3(hit.point.x, hit.point.y + 0.04f, hit.point.z);
-            if (Input.GetMouseButtonDown(0))
-            {
-                _gameController.EndFoul();
-                rb.useGravity = true;
-                rb.isKinematic = false;
-                sphColl.enabled = true;
-                stick.SetActive(true);
-            }
-        }
-    }*/
-    // Method that calculates degrees in Y-axis considering Camera's WorldSpace
     public float CalculateDegree(Vector3 from, Vector3 to)
     {
         float degree, tang, result;
@@ -222,8 +194,6 @@ public class WhiteBallController : MonoBehaviour
         BallController ballController = other.gameObject.GetComponent<BallController>();
         if (!hitBall && ballController != null)
         {
-            /*BallType otherBallType = ballController.getBallType();
-            _gameController.OnWhiteBallFirstHit(this, otherBallType);*/
             hitBall = true;
         }
     }
