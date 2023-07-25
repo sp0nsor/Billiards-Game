@@ -3519,7 +3519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9647059}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4268,21 +4268,22 @@ MonoBehaviour:
   angDragText: {fileID: 2046367472}
   endMessageText: {fileID: 1249865774}
   Ball2DSprites:
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
   - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
-  - {fileID: 21300000, guid: 939fcb4abecae4240af6263dd9a88112, type: 3}
-  - {fileID: 21300000, guid: 3d22d2cd46f843d4992be1f47515011e, type: 3}
-  - {fileID: 21300000, guid: c1354d91dd3ab9e45a3f8b058eb58ce3, type: 3}
-  - {fileID: 21300000, guid: ba80e3757ae207049a8ed452e9b5fd78, type: 3}
-  - {fileID: 21300000, guid: 9c2d774f566a3b54187322966182453b, type: 3}
-  - {fileID: 21300000, guid: c72e8f8d5482f3046aa0963d27b8be84, type: 3}
-  - {fileID: 21300000, guid: d714be09ffe7cb34bab07ff712f100f6, type: 3}
-  - {fileID: 21300000, guid: a41f9e94220b028468a46daf09119160, type: 3}
-  - {fileID: 21300000, guid: 52b39c2a0e10e364a820efa9137ada05, type: 3}
-  - {fileID: 21300000, guid: 058487854ff8d9041aea6e85ca62e3c5, type: 3}
-  - {fileID: 21300000, guid: 64c8edc25bbdc57428e9dde133e41961, type: 3}
-  - {fileID: 21300000, guid: 45f36ba23e4e92340827b579b1084ab3, type: 3}
-  - {fileID: 21300000, guid: 0e9680185eaa93345a48b074ea8c211c, type: 3}
-  - {fileID: 21300000, guid: 2f956bfd12306624cad44e0d656396ff, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
   turnText: {fileID: 277823789}
   player1Balls:
   - {fileID: 2053117109}
@@ -4293,6 +4294,7 @@ MonoBehaviour:
   - {fileID: 674303015}
   - {fileID: 2074380947}
   - {fileID: 266026659}
+  - {fileID: 266026659}
   player2Balls:
   - {fileID: 337860701}
   - {fileID: 331910693}
@@ -4301,6 +4303,7 @@ MonoBehaviour:
   - {fileID: 823866695}
   - {fileID: 757954891}
   - {fileID: 395259527}
+  - {fileID: 1675169523}
   - {fileID: 1675169523}
   shotPowerSliderFill: {fileID: 1174153479}
   canvas: {fileID: 846636533}
@@ -6256,7 +6259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.18039216, g: 0.28235295, b: 0.19607845, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9475,7 +9478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.65103245, b: 0.65103245, a: 1}
+  m_Color: {r: 0.18039216, g: 0.28235295, b: 0.19607845, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
