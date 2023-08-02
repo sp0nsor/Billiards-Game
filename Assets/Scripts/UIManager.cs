@@ -185,13 +185,13 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < PocketedBallsP1.Count; i++)
         {
             Image ballImage = player1Balls[i].GetComponent<Image>();
-            ballImage.sprite = Ball2DSprites[PocketedBallsP1[i] - 1];
+            ballImage.sprite = Ball2DSprites[PocketedBallsP1[i]];
             ballImage.enabled = true;
         }
         for (int i = 0; i < PocketedBallsP2.Count; i++)
         {
             Image ballImage = player2Balls[i].GetComponent<Image>();
-            ballImage.sprite = Ball2DSprites[PocketedBallsP2[i] - 1];
+            ballImage.sprite = Ball2DSprites[PocketedBallsP2[i]];
             ballImage.enabled = true;
 
         }
