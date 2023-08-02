@@ -36,20 +36,17 @@ public class WhiteBallController : MonoBehaviour
 
     void Update()
     {
-        if (!areBallsMoving)
+        if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
         {
-            if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
-            {
-                Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                    currentYaw = CalculateDegree(transform.position, hit.point);
-            }
-            ManageLine();
+            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                currentYaw = CalculateDegree(transform.position, hit.point);
         }
+        ManageLine();
     }
     private void LateUpdate()
     {
-        if (Input.touchCount > 0 && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
+        if (Input.touchCount > 0 && Time.timeScale != 0)
         {
             Touch touch = Input.GetTouch(1);
 
@@ -64,14 +61,6 @@ public class WhiteBallController : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                StopCoroutine(handleShotPowerCoroutine);
-                handleShotPowerCoroutine = null;
-                shotPower = 1;
-                _uiManager.DisableShotSlider();
-                isTakingShot = false;
             }
         }
         ManageRotation();
