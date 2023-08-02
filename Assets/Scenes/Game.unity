@@ -773,7 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballType: 4
+  ballType: 2
   ballNumber: 8
 --- !u!82 &87503864
 AudioSource:
@@ -871,6 +871,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &87503871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87503857}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &87503872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87503857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &116620066
 GameObject:
   m_ObjectHideFlags: 0
@@ -3087,11 +3123,12 @@ MonoBehaviour:
   currentYaw: 0
   yawSpeedPlus: 0
   horizontalAxis: 0
-  isFoul: 0
   hitBall: 0
   areBallsMoving: 0
   stickHit: 0
   isTakingShot: 0
+  triangleBroken: 1
+  isControllerEnabled: 1
 --- !u!54 &327105784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3138,7 +3175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballType: 1
+  ballType: 3
   ballNumber: 0
 --- !u!82 &327105788
 AudioSource:
@@ -3236,6 +3273,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &327105791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327105780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &327331205
 GameObject:
   m_ObjectHideFlags: 0
@@ -3470,7 +3519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9647059}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3889,6 +3938,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &364777583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364777569}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &364777584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364777569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &366534580
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,21 +4268,22 @@ MonoBehaviour:
   angDragText: {fileID: 2046367472}
   endMessageText: {fileID: 1249865774}
   Ball2DSprites:
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
+  - {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
   - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
-  - {fileID: 21300000, guid: 939fcb4abecae4240af6263dd9a88112, type: 3}
-  - {fileID: 21300000, guid: 3d22d2cd46f843d4992be1f47515011e, type: 3}
-  - {fileID: 21300000, guid: c1354d91dd3ab9e45a3f8b058eb58ce3, type: 3}
-  - {fileID: 21300000, guid: ba80e3757ae207049a8ed452e9b5fd78, type: 3}
-  - {fileID: 21300000, guid: 9c2d774f566a3b54187322966182453b, type: 3}
-  - {fileID: 21300000, guid: c72e8f8d5482f3046aa0963d27b8be84, type: 3}
-  - {fileID: 21300000, guid: d714be09ffe7cb34bab07ff712f100f6, type: 3}
-  - {fileID: 21300000, guid: a41f9e94220b028468a46daf09119160, type: 3}
-  - {fileID: 21300000, guid: 52b39c2a0e10e364a820efa9137ada05, type: 3}
-  - {fileID: 21300000, guid: 058487854ff8d9041aea6e85ca62e3c5, type: 3}
-  - {fileID: 21300000, guid: 64c8edc25bbdc57428e9dde133e41961, type: 3}
-  - {fileID: 21300000, guid: 45f36ba23e4e92340827b579b1084ab3, type: 3}
-  - {fileID: 21300000, guid: 0e9680185eaa93345a48b074ea8c211c, type: 3}
-  - {fileID: 21300000, guid: 2f956bfd12306624cad44e0d656396ff, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
+  - {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
   turnText: {fileID: 277823789}
   player1Balls:
   - {fileID: 2053117109}
@@ -4208,6 +4294,7 @@ MonoBehaviour:
   - {fileID: 674303015}
   - {fileID: 2074380947}
   - {fileID: 266026659}
+  - {fileID: 266026659}
   player2Balls:
   - {fileID: 337860701}
   - {fileID: 331910693}
@@ -4216,6 +4303,7 @@ MonoBehaviour:
   - {fileID: 823866695}
   - {fileID: 757954891}
   - {fileID: 395259527}
+  - {fileID: 1675169523}
   - {fileID: 1675169523}
   shotPowerSliderFill: {fileID: 1174153479}
   canvas: {fileID: 846636533}
@@ -4716,6 +4804,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &426169502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426169488}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &426169503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426169488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &426990247
 GameObject:
   m_ObjectHideFlags: 0
@@ -6048,6 +6172,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &539606448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539606434}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &539606449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539606434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &548928455
 GameObject:
   m_ObjectHideFlags: 0
@@ -6099,7 +6259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.18039216, g: 0.28235295, b: 0.19607845, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6318,6 +6478,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &558366970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558366956}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &558366971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558366956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &558442365
 GameObject:
   m_ObjectHideFlags: 0
@@ -7560,6 +7756,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &659542726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659542712}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &659542727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659542712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &665016909
 GameObject:
   m_ObjectHideFlags: 0
@@ -8342,6 +8574,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &724455480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724455466}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &724455481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724455466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &727188083
 GameObject:
   m_ObjectHideFlags: 0
@@ -9210,7 +9478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6603774, g: 0.65103245, b: 0.65103245, a: 1}
+  m_Color: {r: 0.18039216, g: 0.28235295, b: 0.19607845, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11416,6 +11684,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1001057019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001057005}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1001057020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001057005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1004126939
 GameObject:
   m_ObjectHideFlags: 0
@@ -12112,6 +12416,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1056497385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056497371}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1056497386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056497371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1056806237
 GameObject:
   m_ObjectHideFlags: 0
@@ -14083,6 +14423,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1268695994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268695980}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1268695995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268695980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1269318592
 GameObject:
   m_ObjectHideFlags: 0
@@ -14571,6 +14947,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1297464479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297464465}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1297464480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297464465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1301654280
 GameObject:
   m_ObjectHideFlags: 0
@@ -15439,6 +15851,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1378468529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378468515}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1378468530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378468515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1383280427
 GameObject:
   m_ObjectHideFlags: 0
@@ -16337,6 +16785,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1448349253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448349239}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1448349254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448349239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1475503593
 GameObject:
   m_ObjectHideFlags: 0
@@ -17558,6 +18042,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1575759314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575759300}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1575759315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575759300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1578714057
 GameObject:
   m_ObjectHideFlags: 0
@@ -19518,6 +20038,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1733997761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733997747}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stick: {fileID: 558442365}
+  slider: {fileID: 1754453788}
+  yawSpeed: 44
+  currentYaw: 0
+  yawSpeedPlus: 0
+  horizontalAxis: 0
+  hitBall: 0
+  areBallsMoving: 0
+  stickHit: 0
+  isTakingShot: 0
+  triangleBroken: 0
+  isControllerEnabled: 1
+--- !u!114 &1733997762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733997747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b54010362f1dbf409c58d4168a5b905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1743760774
 GameObject:
   m_ObjectHideFlags: 0
