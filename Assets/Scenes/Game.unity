@@ -4294,7 +4294,6 @@ MonoBehaviour:
   - {fileID: 674303015}
   - {fileID: 2074380947}
   - {fileID: 266026659}
-  - {fileID: 266026659}
   player2Balls:
   - {fileID: 337860701}
   - {fileID: 331910693}
@@ -4303,7 +4302,6 @@ MonoBehaviour:
   - {fileID: 823866695}
   - {fileID: 757954891}
   - {fileID: 395259527}
-  - {fileID: 1675169523}
   - {fileID: 1675169523}
   shotPowerSliderFill: {fileID: 1174153479}
   canvas: {fileID: 846636533}
@@ -4350,7 +4348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c2d7c3bab1f30148a5bccd082ce7fcc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0887
+      value: 0.0869
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c2d7c3bab1f30148a5bccd082ce7fcc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4358,7 +4356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c2d7c3bab1f30148a5bccd082ce7fcc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1408
+      value: -0.2815
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1c2d7c3bab1f30148a5bccd082ce7fcc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9346,7 +9344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17c90fb53549b3d4a9dc95e243e6aaf8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.28309995
+      value: -0.139
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17c90fb53549b3d4a9dc95e243e6aaf8, type: 3}
       propertyPath: m_LocalRotation.w

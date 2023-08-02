@@ -49,22 +49,32 @@ public class WhiteBallController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
+        if (Input.touchCount > 0 && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
         {
-            handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
-            //StartCoroutine(HandleShotPower());
-        }
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isTakingShot && Time.timeScale != 0)
-        {
-            StopCoroutine(handleShotPowerCoroutine);
-            handleShotPowerCoroutine = null;
-            shotPower = 1;
-            _uiManager.DisableShotSlider();
-            isTakingShot = false;
-        }
+            Touch touch = Input.GetTouch(1);
 
+            if(Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                StopCoroutine(handleShotPowerCoroutine);
+                handleShotPowerCoroutine = null;
+                shotPower = 1;
+                _uiManager.DisableShotSlider();
+                isTakingShot = false;
+            }
+            if (touch.phase == TouchPhase.Began)
+            {
+                handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                StopCoroutine(handleShotPowerCoroutine);
+                handleShotPowerCoroutine = null;
+                shotPower = 1;
+                _uiManager.DisableShotSlider();
+                isTakingShot = false;
+            }
+        }
         ManageRotation();
-
     }
 
     private void ManageRotation()
@@ -106,13 +116,19 @@ public class WhiteBallController : MonoBehaviour
         isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
         yield return shotPoweringUpTime;
+
+        float powerIncreaseRate = 1f; // Modify this to control the rate of power increase
+
         while (true)
         {
-            if (!Input.GetKey(KeyCode.Space))
+            Touch touch = Input.GetTouch(1);
+
+            if (touch.phase == TouchPhase.Ended)
                 break;
+
             if (shotPower < 100)
             {
-                shotPower += 1;
+                shotPower += powerIncreaseRate;
                 _uiManager.UpdateShotSlider(shotPower);
                 float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
 
@@ -122,13 +138,6 @@ public class WhiteBallController : MonoBehaviour
             }
             yield return shotPoweringUpTime;
         }
-        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
-        while (!stickHit)
-        {
-            Debug.Log(shotForce);
-            stick.transform.position += shotForce * Time.deltaTime;
-            yield return waitForEndOfFrame;
-        }
         stick.SetActive(false);
         stickHit = false;
         _uiManager.DisableShotSlider();
@@ -136,7 +145,6 @@ public class WhiteBallController : MonoBehaviour
         Shoot();
         isTakingShot = false;
         shotPower = 1;
-
     }
     private void Shoot()
     {

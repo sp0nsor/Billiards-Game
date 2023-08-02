@@ -56,6 +56,18 @@ public class GameController : MonoBehaviour
     public void CheckPocketedBall(BallController ballController, PocketType pocketType)
     {
         BallType ballType = ballController.getBallType();
+        if (_gameState == GameState.PLAYER1TURN && P1PocketedBalls.Count == 7)
+        {
+            _uiManager.OnGameEnd("Player 2 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
+        if (_gameState == GameState.PLAYER2TURN && P2PocketedBalls.Count == 7)
+        {
+            _uiManager.OnGameEnd("Player 1 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
         switch (ballType)
         {
             case BallType.HALF:
