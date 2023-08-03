@@ -11,7 +11,7 @@ public class EnabledWhiteBallController: MonoBehaviour
         whiteBallController = GetComponent<WhiteBallController>();
         ballController = GetComponent<BallController>();
 
-        if (whiteBallController != null)
+        if (whiteBallController != null && WhiteBallController.FirstMove == false)
         {
             if(WhiteBallController.CurrentActiveBall != null)
             {

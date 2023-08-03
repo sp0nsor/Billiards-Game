@@ -23,6 +23,7 @@ public class WhiteBallController : MonoBehaviour
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
     private static WhiteBallController currentActiveBall;
+    private static bool firstMove = true;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -142,6 +143,7 @@ public class WhiteBallController : MonoBehaviour
         rb.AddForce(shotForce, ForceMode.Impulse);
         DisableController();
         StartCoroutine(WaitForBallsToStop());
+        firstMove = false;
     }
     private void OnDrawGizmos()
     {
@@ -208,6 +210,10 @@ public class WhiteBallController : MonoBehaviour
     public static WhiteBallController CurrentActiveBall
     {
         get { return currentActiveBall; }
+    }
+    public static bool FirstMove
+    {
+        get { return firstMove; }
     }
     public void EnabledController()
     {
