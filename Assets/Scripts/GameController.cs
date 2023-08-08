@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
         }
         if (P2PocketedBalls.Count == 7)
         {
-            _uiManager.OnGameEnd("Player 2 wins");
+            _uiManager.OnGameEnd("Player 1 wins");
             RemoveFromBalls(ballController);
             _gameState = GameState.END;
         }

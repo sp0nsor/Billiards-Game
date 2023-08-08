@@ -24,11 +24,11 @@ public class BallController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0008f))
+        /*if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0008f))
         {
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
-        }
+        }*/
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -47,11 +47,11 @@ public class BallController : MonoBehaviour
         _rb.velocity = _rb.velocity * 0.9985f;
         _rb.angularVelocity = _rb.angularVelocity * 0.9985f;
         if (ballType == BallType.WHITE) { Debug.Log(_rb.velocity); }
-        if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0001f))
+        /*if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0001f))
         {
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
-        }
+        }*/
     }
     public IEnumerator ManageVelocityEnum()
     {
@@ -59,11 +59,11 @@ public class BallController : MonoBehaviour
         {
             _rb.velocity = _rb.velocity * 0.991f;
             _rb.angularVelocity = _rb.angularVelocity * 0.991f;
-            if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0001f))
+            /*if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0001f))
             {
                 _rb.velocity = Vector3.zero;
                 _rb.angularVelocity = Vector3.zero;
-            }
+            }*/
             //yield return new WaitForEndOfFrame();
             yield return new WaitForFixedUpdate();
         }
