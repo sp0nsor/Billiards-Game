@@ -23,6 +23,8 @@ public class WhiteBallController : MonoBehaviour
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
     private static WhiteBallController currentActiveBall;
+    private static bool firstMove = true;
+    private Vector2 touchStartPos;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -33,23 +35,37 @@ public class WhiteBallController : MonoBehaviour
         lineRenderer = FindObjectOfType<LineRenderer>();
         stickHit = false;
     }
-
-    void Update()
+    private void Update()
     {
-        if (!areBallsMoving)
+        if (Input.touchCount > 0 && Time.timeScale != 0)
         {
-            if (Input.GetMouseButtonDown(0) && Time.timeScale != 0)
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
             {
-                Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+                touchStartPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                Ray ray = mainCam.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
                     currentYaw = CalculateDegree(transform.position, hit.point);
+                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+                stick.transform.LookAt(transform.position);
             }
-            ManageLine();
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                yawSpeedPlus = 0f;
+            }
         }
+        ManageRotation();
+        ManageLine();
     }
     private void LateUpdate()
     {
-        if (Input.touchCount > 0 && !_gameController.IsFoul() && Time.timeScale != 0 && !areBallsMoving)
+        if (Input.touchCount > 0 && Time.timeScale != 0)
         {
             Touch touch = Input.GetTouch(1);
 
@@ -65,30 +81,13 @@ public class WhiteBallController : MonoBehaviour
             {
                 handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
             }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                StopCoroutine(handleShotPowerCoroutine);
-                handleShotPowerCoroutine = null;
-                shotPower = 1;
-                _uiManager.DisableShotSlider();
-                isTakingShot = false;
-            }
         }
         ManageRotation();
+        ManageLine();
     }
 
     private void ManageRotation()
     {
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-        if (horizontalAxis != 0)
-        {
-            currentYaw -= Input.GetAxisRaw("Horizontal") * (yawSpeed + yawSpeedPlus) * Time.deltaTime;
-            yawSpeedPlus += 20 * Time.deltaTime;
-        }
-        else
-        {
-            yawSpeedPlus = 0;
-        }
         float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
         if (!isTakingShot)
         {
@@ -96,7 +95,6 @@ public class WhiteBallController : MonoBehaviour
             stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
             stick.transform.LookAt(transform.position);
         }
-
 
         shotAngle = stick.transform.eulerAngles.y;
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
@@ -148,11 +146,11 @@ public class WhiteBallController : MonoBehaviour
     }
     private void Shoot()
     {
-        //Vector3 forceV = new Vector3(Mathf.Sin(degree)*1, 0, Mathf.Cos(degree)*1);
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         rb.AddForce(shotForce, ForceMode.Impulse);
         DisableController();
         StartCoroutine(WaitForBallsToStop());
+        firstMove = false;
     }
     private void OnDrawGizmos()
     {
@@ -219,6 +217,10 @@ public class WhiteBallController : MonoBehaviour
     public static WhiteBallController CurrentActiveBall
     {
         get { return currentActiveBall; }
+    }
+    public static bool FirstMove
+    {
+        get { return firstMove; }
     }
     public void EnabledController()
     {
