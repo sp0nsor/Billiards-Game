@@ -29,9 +29,6 @@ public class PhysicsController : MonoBehaviour
     {
         physicsDelegate.Invoke();
     }
-    void Update()
-    {
-    }
     public void SetDefaultPhysics()
     {
         ballMass = defaultMass;

@@ -6,10 +6,8 @@ public enum GameState { START, PLAYER1TURN, PLAYER2TURN, END }
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameState _gameState = GameState.START;
-    //private GameState previousState = GameState.START;
     [SerializeField] private bool foul;
     [SerializeField] private BallType player1BType, player2BType;
-    [SerializeField] private PocketType player1ChosenPocket, player2ChosenPocket;
     [SerializeField] private LayerMask tableLayer;
     [SerializeField] private Vector3 tableCenter, waitingPoint;
     [SerializeField] private UIManager _uiManager;
@@ -53,7 +51,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void CheckPocketedBall(BallController ballController, PocketType pocketType)
+    public void CheckPocketedBall(BallController ballController)
     {
         BallType ballType = ballController.getBallType();
         if (P1PocketedBalls.Count == 7)
@@ -74,16 +72,12 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.HALF)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    /*if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;*/
                     _gameState = GameState.PLAYER2TURN;
                     didPocketOwnBall = true;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    /*if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;*/
                     _gameState = GameState.PLAYER2TURN;
                     didPocketOwnBall = false;
                 }
@@ -94,16 +88,12 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.FULL)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    /*if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER1TURN ? true : false;*/
                     _gameState = GameState.PLAYER1TURN;
                     didPocketOwnBall = false;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    /*if (!didPocketOwnBall)
-                        didPocketOwnBall = _gameState == GameState.PLAYER2TURN ? true : false;*/
                     _gameState = GameState.PLAYER1TURN;
                     didPocketOwnBall = true;
                 }
@@ -113,16 +103,10 @@ public class GameController : MonoBehaviour
 
         }
     }
-    public void Foul()
-    {
-        Debug.Log("Foul");
-        foul = true;
-    }
     public Vector3 GetWaitingPoint()
     {
         return waitingPoint;
     }
-    //TODO Finish CheckChangeTurn
     public void CheckChangeTurn()
     {
 
@@ -138,14 +122,6 @@ public class GameController : MonoBehaviour
     {
         return tableLayer;
     }
-    public void EndFoul()
-    {
-        foul = false;
-    }
-    public bool IsFoul()
-    {
-        return foul;
-    }
     public bool AreBallsMoving()
     {
         bool temp = false;
@@ -157,15 +133,11 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
-        //Debug.Log(temp);
         return temp;
     }
     public void RemoveFromBalls(BallController ballController)
     {
-
         Balls.Remove(ballController);
-        Debug.Log("Removed ball nr " + ballController.getBallNumber());
-
     }
     public GameState GetGameState()
     {

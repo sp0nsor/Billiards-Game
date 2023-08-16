@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class WhiteBallController : MonoBehaviour
+public class StrikeBall : MonoBehaviour
 {
     public GameObject stick;
     [SerializeField] private Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
     private SphereCollider sphColl;
-    private bool timeToShoot = true;
     [SerializeField] private float yawSpeed;
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField] private bool /*isFoul = false,*/ hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
-    private Coroutine ballMovingCoroutine;
+    [SerializeField] private bool hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
     private Coroutine handleShotPowerCoroutine;
-    private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
-    private static WhiteBallController currentActiveBall;
+    private static StrikeBall currentActiveBall;
     private static bool firstMove = true;
     private Vector2 touchStartPos;
     void Start()
@@ -69,7 +66,7 @@ public class WhiteBallController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(1);
 
-            if(Input.GetTouch(0).phase == TouchPhase.Ended)
+            if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 StopCoroutine(handleShotPowerCoroutine);
                 handleShotPowerCoroutine = null;
@@ -104,8 +101,8 @@ public class WhiteBallController : MonoBehaviour
         lineRenderer.enabled = true;
         RaycastHit raycastHit;
         Physics.Raycast(transform.position, shotForce, out raycastHit);
-        Vector3 startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z),
-        targetPosition = new Vector3(raycastHit.point.x, raycastHit.point.y, raycastHit.point.z);
+        Vector3 startPosition = transform.position,
+        targetPosition = raycastHit.point;
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, targetPosition);
     }
@@ -115,7 +112,7 @@ public class WhiteBallController : MonoBehaviour
         _uiManager.EnableShotSlider(transform.position);
         yield return shotPoweringUpTime;
 
-        float powerIncreaseRate = 1f; // Modify this to control the rate of power increase
+        float powerIncreaseRate = 1f;
 
         while (true)
         {
@@ -156,7 +153,7 @@ public class WhiteBallController : MonoBehaviour
     {
         Gizmos.DrawLine(transform.position, transform.position + shotForce);
     }
-    public float CalculateDegree(Vector3 from, Vector3 to)
+    private float CalculateDegree(Vector3 from, Vector3 to)
     {
         float degree, tang, result;
         Vector3 vectorBetween = to - from;
@@ -180,7 +177,7 @@ public class WhiteBallController : MonoBehaviour
         result = 270 + degree * Mathf.Rad2Deg + 90;
         return result;
     }
-    public IEnumerator WaitForBallsToStop()
+    private IEnumerator WaitForBallsToStop()
     {
         areBallsMoving = true;
         yield return waitForBallsStopTime;
@@ -189,8 +186,6 @@ public class WhiteBallController : MonoBehaviour
             yield return waitForBallsStopTime;
         }
         areBallsMoving = false;
-        if (!hitBall)
-            _gameController.Foul();
         stick.SetActive(true);
         _gameController.CheckChangeTurn();
         hitBall = false;
@@ -210,13 +205,17 @@ public class WhiteBallController : MonoBehaviour
             stickHit = true;
         }
     }
-    public static void SetCurrentActiveBall(WhiteBallController ball)
+    public static void SetCurrentActiveBall(StrikeBall ball)
     {
         currentActiveBall = ball;
     }
-    public static WhiteBallController CurrentActiveBall
+    public static StrikeBall CurrentActiveBall
     {
         get { return currentActiveBall; }
+    }
+    public static bool AreBallMoving
+    {
+        get { return AreBallMoving; }
     }
     public static bool FirstMove
     {
@@ -229,9 +228,5 @@ public class WhiteBallController : MonoBehaviour
     public void DisableController()
     {
         enabled = false;
-    }
-    public bool IsControllerEnabled()
-    {
-        return enabled;
     }
 }
