@@ -8,7 +8,6 @@ public class StrikeBall : MonoBehaviour
     [SerializeField] private Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
-    private SphereCollider sphColl;
     [SerializeField] private float yawSpeed;
     [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
     private Vector3 shotForce = Vector3.forward * 2;
@@ -25,7 +24,6 @@ public class StrikeBall : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        sphColl = GetComponent<SphereCollider>();
         _uiManager = FindObjectOfType<UIManager>();
         mainCam = Camera.main;
         _gameController = GameController.instance;
