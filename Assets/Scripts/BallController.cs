@@ -8,12 +8,14 @@ public enum BallType { NULL, WHITE, HALF, FULL, BLACK };
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
+    private static Rigidbody _rb2;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
     private static bool areBallsMoving;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _rb2 = GetComponent<Rigidbody>();
         PhysicsController.physicsDelegate += ApplyPhysics;
     }
     private void Update()
@@ -87,5 +89,9 @@ public class BallController : MonoBehaviour
     public bool isMoving()
     {
         return _rb.velocity != Vector3.zero;
+    }
+    public static bool AreBallsMoving
+    {
+        get { return _rb2.velocity != Vector3.zero; }
     }
 }

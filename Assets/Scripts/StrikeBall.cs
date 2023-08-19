@@ -32,27 +32,30 @@ public class StrikeBall : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.touchCount > 0 && Time.timeScale != 0)
+        if (!areBallsMoving)
         {
-            Touch touch = Input.GetTouch(0);
+            if (Input.touchCount > 0 && Time.timeScale != 0)
+            {
+                Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
-            {
-                touchStartPos = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Moved)
-            {
-                Ray ray = mainCam.ScreenPointToRay(touch.position);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                    currentYaw = CalculateDegree(transform.position, hit.point);
-                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
-                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
-                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-                stick.transform.LookAt(transform.position);
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                yawSpeedPlus = 0f;
+                if (touch.phase == TouchPhase.Began)
+                {
+                    touchStartPos = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Moved)
+                {
+                    Ray ray = mainCam.ScreenPointToRay(touch.position);
+                    if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                        currentYaw = CalculateDegree(transform.position, hit.point);
+                    float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+                    stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+                    stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+                    stick.transform.LookAt(transform.position);
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    yawSpeedPlus = 0f;
+                }
             }
         }
         ManageRotation();
@@ -60,21 +63,24 @@ public class StrikeBall : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Input.touchCount > 0 && Time.timeScale != 0)
+        if (!areBallsMoving)
         {
-            Touch touch = Input.GetTouch(1);
+            if (Input.touchCount > 0 && Time.timeScale != 0)
+            {
+                Touch touch = Input.GetTouch(1);
 
-            if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                StopCoroutine(handleShotPowerCoroutine);
-                handleShotPowerCoroutine = null;
-                shotPower = 1;
-                _uiManager.DisableShotSlider();
-                isTakingShot = false;
-            }
-            if (touch.phase == TouchPhase.Began)
-            {
-                handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
+                if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    StopCoroutine(handleShotPowerCoroutine);
+                    handleShotPowerCoroutine = null;
+                    shotPower = 1;
+                    _uiManager.DisableShotSlider();
+                    isTakingShot = false;
+                }
+                if (touch.phase == TouchPhase.Began)
+                {
+                    handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
+                }
             }
         }
         ManageRotation();

@@ -18,15 +18,18 @@ public class EnabledStrikeBall : MonoBehaviour
                 StrikeBall.CurrentActiveBall.DisableController();
             }
 
-            if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.FULL)
+            if (BallController.AreBallsMoving == false)
             {
-                strikeBall.EnabledController();
-                StrikeBall.SetCurrentActiveBall(strikeBall);
-            }
-            if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.HALF)
-            {
-                strikeBall.EnabledController();
-                StrikeBall.SetCurrentActiveBall(strikeBall);
+                if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.FULL)
+                {
+                    strikeBall.EnabledController();
+                    StrikeBall.SetCurrentActiveBall(strikeBall);
+                }
+                if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.HALF)
+                {
+                    strikeBall.EnabledController();
+                    StrikeBall.SetCurrentActiveBall(strikeBall);
+                }
             }
         }
     }

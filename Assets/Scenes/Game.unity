@@ -12130,6 +12130,10 @@ PrefabInstance:
       value: Kij bilardowy
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 895b76839923cb848a9ba0298f2867a4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 895b76839923cb848a9ba0298f2867a4, type: 3}
       propertyPath: m_TagString
       value: Stick
       objectReference: {fileID: 0}
