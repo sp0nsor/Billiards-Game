@@ -8,19 +8,12 @@ public enum BallType { NULL, WHITE, HALF, FULL, BLACK };
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
-    private static Rigidbody _rb2;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
-    private static bool areBallsMoving;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb2 = GetComponent<Rigidbody>();
         PhysicsController.physicsDelegate += ApplyPhysics;
-    }
-    private void Update()
-    {
-        areBallsMoving = isMoving();
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -38,6 +31,7 @@ public class BallController : MonoBehaviour
     {
         _rb.velocity = _rb.velocity * 0.9985f;
         _rb.angularVelocity = _rb.angularVelocity * 0.9985f;
+        if (ballType == BallType.WHITE) { Debug.Log(_rb.velocity); }
     }
     public IEnumerator ManageVelocityEnum()
     {
@@ -66,18 +60,6 @@ public class BallController : MonoBehaviour
             Destroy(gameObject, 2f);
         }
     }
-    public void SetEndGameState()
-    {
-        _rb.useGravity = false;
-        _rb.velocity = Vector3.zero;
-        StopCoroutine(ManageVelocityEnum());
-    }
-    public void TakeToWaitingPoint()
-    {
-        _rb.useGravity = false;
-        _rb.velocity = Vector3.zero;
-        transform.position = GameController.instance.GetWaitingPoint();
-    }
     public BallType getBallType()
     {
         return ballType;
@@ -88,10 +70,6 @@ public class BallController : MonoBehaviour
     }
     public bool isMoving()
     {
-        return _rb.velocity != Vector3.zero;
-    }
-    public static bool AreBallsMoving
-    {
-        get { return _rb2.velocity != Vector3.zero; }
+        return _rb.velocity.magnitude != 0;
     }
 }

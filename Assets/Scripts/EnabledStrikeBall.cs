@@ -17,8 +17,7 @@ public class EnabledStrikeBall : MonoBehaviour
             {
                 StrikeBall.CurrentActiveBall.DisableController();
             }
-
-            if (BallController.AreBallsMoving == false)
+            if (GameController.instance.AreBallsMoving() == false)
             {
                 if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.FULL)
                 {

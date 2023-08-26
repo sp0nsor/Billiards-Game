@@ -126,6 +126,7 @@ public class UIManager : MonoBehaviour
     }
     public void onMainMenuButtonClick()
     {
+        StrikeBall.SetFirstMove(true);
         Time.timeScale = 1;
         SceneManager.LoadScene("Main menu");
     }

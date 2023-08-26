@@ -8,11 +8,11 @@ public class StrikeBall : MonoBehaviour
     [SerializeField] private Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
-    [SerializeField] private float yawSpeed;
-    [SerializeField] private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
+    private float yawSpeed;
+    private float currentYaw = 0f, yawSpeedPlus = 0f;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    [SerializeField] private bool hitBall = false, areBallsMoving = false, stickHit = false, isTakingShot = false, triangleBroken = false, isControllerEnabled = true;
+    private bool hitBall = false, stickHit = false, isTakingShot = false, isControllerEnabled = true;
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
@@ -32,30 +32,27 @@ public class StrikeBall : MonoBehaviour
     }
     private void Update()
     {
-        if (!areBallsMoving)
+        if (Input.touchCount > 0 && Time.timeScale != 0)
         {
-            if (Input.touchCount > 0 && Time.timeScale != 0)
-            {
-                Touch touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(0);
 
-                if (touch.phase == TouchPhase.Began)
-                {
-                    touchStartPos = touch.position;
-                }
-                else if (touch.phase == TouchPhase.Moved)
-                {
-                    Ray ray = mainCam.ScreenPointToRay(touch.position);
-                    if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
-                        currentYaw = CalculateDegree(transform.position, hit.point);
-                    float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
-                    stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
-                    stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-                    stick.transform.LookAt(transform.position);
-                }
-                else if (touch.phase == TouchPhase.Ended)
-                {
-                    yawSpeedPlus = 0f;
-                }
+            if (touch.phase == TouchPhase.Began)
+            {
+                touchStartPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                Ray ray = mainCam.ScreenPointToRay(touch.position);
+                if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                    currentYaw = CalculateDegree(transform.position, hit.point);
+                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+                stick.transform.LookAt(transform.position);
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                yawSpeedPlus = 0f;
             }
         }
         ManageRotation();
@@ -63,24 +60,21 @@ public class StrikeBall : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (!areBallsMoving)
+        if (Input.touchCount > 0 && Time.timeScale != 0)
         {
-            if (Input.touchCount > 0 && Time.timeScale != 0)
-            {
-                Touch touch = Input.GetTouch(1);
+            Touch touch = Input.GetTouch(1);
 
-                if (Input.GetTouch(0).phase == TouchPhase.Ended)
-                {
-                    StopCoroutine(handleShotPowerCoroutine);
-                    handleShotPowerCoroutine = null;
-                    shotPower = 1;
-                    _uiManager.DisableShotSlider();
-                    isTakingShot = false;
-                }
-                if (touch.phase == TouchPhase.Began)
-                {
-                    handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
-                }
+            if (Input.GetTouch(0).phase == TouchPhase.Ended )
+            {
+                StopCoroutine(handleShotPowerCoroutine);
+                handleShotPowerCoroutine = null;
+                shotPower = 1;
+                _uiManager.DisableShotSlider();
+                isTakingShot = false;
+            }
+            if (touch.phase == TouchPhase.Began)
+            {
+                handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
             }
         }
         ManageRotation();
@@ -142,6 +136,7 @@ public class StrikeBall : MonoBehaviour
         _uiManager.DisableShotSlider();
         lineRenderer.enabled = false;
         Shoot();
+        firstMove = false;
         isTakingShot = false;
         shotPower = 1;
     }
@@ -151,7 +146,6 @@ public class StrikeBall : MonoBehaviour
         rb.AddForce(shotForce, ForceMode.Impulse);
         DisableController();
         StartCoroutine(WaitForBallsToStop());
-        firstMove = false;
     }
     private void OnDrawGizmos()
     {
@@ -183,13 +177,11 @@ public class StrikeBall : MonoBehaviour
     }
     private IEnumerator WaitForBallsToStop()
     {
-        areBallsMoving = true;
         yield return waitForBallsStopTime;
         while (_gameController.AreBallsMoving())
         {
             yield return waitForBallsStopTime;
         }
-        areBallsMoving = false;
         stick.SetActive(true);
         _gameController.CheckChangeTurn();
         hitBall = false;
@@ -212,6 +204,10 @@ public class StrikeBall : MonoBehaviour
     public static void SetCurrentActiveBall(StrikeBall ball)
     {
         currentActiveBall = ball;
+    }
+    public static void SetFirstMove(bool value)
+    {
+        value = firstMove;
     }
     public static StrikeBall CurrentActiveBall
     {

@@ -34,10 +34,8 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
-
         player1BType = BallType.FULL;
         player2BType = BallType.HALF;
-
     }
 
     void Update()
@@ -109,7 +107,6 @@ public class GameController : MonoBehaviour
     }
     public void CheckChangeTurn()
     {
-
         if (!didPocketOwnBall)
         {
             _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
