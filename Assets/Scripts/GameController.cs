@@ -52,13 +52,13 @@ public class GameController : MonoBehaviour
     public void CheckPocketedBall(BallController ballController)
     {
         BallType ballType = ballController.getBallType();
-        if (P1PocketedBalls.Count == 7)
+        if (P1PocketedBalls.Count == 8)
         {
             _uiManager.OnGameEnd("Player 2 wins");
             RemoveFromBalls(ballController);
             _gameState = GameState.END;
         }
-        if (P2PocketedBalls.Count == 7)
+        if (P2PocketedBalls.Count == 8)
         {
             _uiManager.OnGameEnd("Player 1 wins");
             RemoveFromBalls(ballController);
