@@ -45,6 +45,10 @@ public class StrikeBall : MonoBehaviour
                 Ray ray = mainCam.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
                     currentYaw = CalculateDegree(transform.position, hit.point);
+                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+                stick.transform.LookAt(transform.position);
             }
             else if (touch.phase == TouchPhase.Ended)
             {
