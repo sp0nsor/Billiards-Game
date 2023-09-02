@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] Ball2DSprites = new Sprite[15];
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private GameObject[] player1Balls, player2Balls;
-    //[SerializeField] private Image[] player1Balls, player2Balls;
     [SerializeField] private Image shotPowerSliderFill;
     [SerializeField] private RectTransform canvas;
     [SerializeField] private Camera mainCam, uiCam;
@@ -127,16 +126,15 @@ public class UIManager : MonoBehaviour
     }
     public void onMainMenuButtonClick()
     {
+        StrikeBall.SetFirstMove(true);
         Time.timeScale = 1;
         SceneManager.LoadScene("Main menu");
     }
     public void onExitButtonClick()
     {
-        //exit game
         Application.Quit();
     }
     #region Shot Power Slider
-    // Enables Shot Slider above given position
     public void EnableShotSlider(Vector3 pos)
     {
         var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.1f, 0, 0));
