@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour
         player2BType = BallType.HALF;
     }
 
-    void Update()
+/*    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
                 _uiManager.ShowGameMenu();
             }
         }
-    }
+    }*/
 
     public void CheckPocketedBall(BallController ballController)
     {
