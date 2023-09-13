@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 public class StrikeBall : MonoBehaviour
@@ -16,7 +17,7 @@ public class StrikeBall : MonoBehaviour
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
-    private Coroutine handleShotPowerCoroutine;
+    private Coroutine handleShotPowerCoroutine = null;
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
     private static StrikeBall currentActiveBall;
     private static bool firstMove = true;
@@ -34,7 +35,6 @@ public class StrikeBall : MonoBehaviour
     {
         if (Time.timeScale == 0)
             return;
-
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -54,38 +54,22 @@ public class StrikeBall : MonoBehaviour
                 yawSpeedPlus = 0f;
             }
         }
-
-        ManageRotation();
-        ManageLine();
-    }
-
-    private void LateUpdate()
-    {
-        if (Time.timeScale == 0)
-            return;
-
-        if (Input.touchCount > 0)
+        if (slider.value > 1 && handleShotPowerCoroutine == null)
         {
-            Touch touch = Input.GetTouch(1);
-
-            if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                StopCoroutine(handleShotPowerCoroutine);
-                handleShotPowerCoroutine = null;
-                shotPower = 1;
-                _uiManager.DisableShotSlider();
-                isTakingShot = false;
-            }
-            if (touch.phase == TouchPhase.Began)
-            {
-                handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
-            }
+            handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
+        }
+        if (slider.value == 1 && handleShotPowerCoroutine != null)
+        {
+            StopCoroutine(handleShotPowerCoroutine);
+            handleShotPowerCoroutine = null;
+            shotPower = 1;
+            _uiManager.DisableShotSlider();
+            isTakingShot = false;
         }
 
         ManageRotation();
         ManageLine();
     }
-
     private void ManageRotation()
     {
         float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
@@ -115,25 +99,20 @@ public class StrikeBall : MonoBehaviour
         _uiManager.EnableShotSlider(transform.position);
         yield return shotPoweringUpTime;
 
-        float powerIncreaseRate = 1f;
-
         while (true)
         {
-            Touch touch = Input.GetTouch(1);
+            Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Ended)
                 break;
 
-            if (shotPower < 100)
-            {
-                shotPower += powerIncreaseRate;
-                _uiManager.UpdateShotSlider(shotPower);
-                float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+            shotPower = slider.value;
+            _uiManager.UpdateShotSlider(shotPower);
+            float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
 
-                stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
-                stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-                stick.transform.LookAt(transform.position);
-            }
+            stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
+            stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
+            stick.transform.LookAt(transform.position);
             yield return shotPoweringUpTime;
         }
         stick.SetActive(false);
@@ -144,6 +123,7 @@ public class StrikeBall : MonoBehaviour
         firstMove = false;
         isTakingShot = false;
         shotPower = 1;
+        slider.value = 1;
     }
     private void Shoot()
     {
@@ -187,6 +167,7 @@ public class StrikeBall : MonoBehaviour
         {
             yield return waitForBallsStopTime;
         }
+        slider.interactable = true; 
         stick.SetActive(true);
         _gameController.CheckChangeTurn();
         hitBall = false;
