@@ -22,6 +22,7 @@ public class StrikeBall : MonoBehaviour
     private static StrikeBall currentActiveBall;
     private static bool firstMove = true;
     private Vector2 touchStartPos;
+    private BallController ballController;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -29,6 +30,7 @@ public class StrikeBall : MonoBehaviour
         mainCam = Camera.main;
         _gameController = GameController.instance;
         lineRenderer = FindObjectOfType<LineRenderer>();
+        ballController = GetComponent<BallController>();
         stickHit = false;
     }
     private void Update()
@@ -195,6 +197,10 @@ public class StrikeBall : MonoBehaviour
     {
         firstMove = value;
     }
+    public BallController GetBallController()
+    {
+        return ballController;
+    }
     public static StrikeBall CurrentActiveBall
     {
         get { return currentActiveBall; }
@@ -211,4 +217,5 @@ public class StrikeBall : MonoBehaviour
     {
         enabled = false;
     }
+
 }
