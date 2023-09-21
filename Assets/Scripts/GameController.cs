@@ -71,13 +71,15 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.HALF)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    ChangeGameState(GameState.PLAYER2TURN);
+                    //ChangeGameState(GameState.PLAYER2TURN);
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
                     didPocketOwnBall = true;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    ChangeGameState (GameState.PLAYER2TURN);
+                    //ChangeGameState (GameState.PLAYER2TURN);
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
                     didPocketOwnBall = false;
                 }
                 RemoveFromBalls(ballController);
@@ -87,19 +89,27 @@ public class GameController : MonoBehaviour
                 if (player1BType == BallType.FULL)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    ChangeGameState(GameState.PLAYER1TURN);
+                    //ChangeGameState(GameState.PLAYER1TURN);
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
                     didPocketOwnBall = false;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    ChangeGameState(GameState.PLAYER1TURN);
+                    //ChangeGameState(GameState.PLAYER1TURN);
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
                     didPocketOwnBall = true;
                 }
                 RemoveFromBalls(ballController);
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 break;
         }
+    }
+    private IEnumerator WaitForBallsToStopAndChangeTurn(GameState newState)
+    {
+        yield return new WaitUntil(() => !AreBallsMoving());
+
+        ChangeGameState(newState);
     }
     private void ChangeGameState(GameState newState)
     {
