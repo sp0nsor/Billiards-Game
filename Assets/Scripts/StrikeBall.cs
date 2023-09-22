@@ -67,6 +67,7 @@ public class StrikeBall : MonoBehaviour
             shotPower = 1;
             _uiManager.DisableShotSlider();
             isTakingShot = false;
+            currentActiveBall.DisableController();
         }
 
         ManageRotation();
@@ -126,6 +127,7 @@ public class StrikeBall : MonoBehaviour
         isTakingShot = false;
         shotPower = 1;
         slider.value = 1;
+
     }
     private void Shoot()
     {
@@ -140,27 +142,9 @@ public class StrikeBall : MonoBehaviour
     }
     private float CalculateDegree(Vector3 from, Vector3 to)
     {
-        float degree, tang, result;
         Vector3 vectorBetween = to - from;
-        tang = vectorBetween.x / vectorBetween.z;
-        degree = Mathf.Atan(tang);
-        if (vectorBetween.x > 0 && vectorBetween.z > 0)
-        {
-            result = degree * Mathf.Rad2Deg;
-            return result;
-        }
-        if (vectorBetween.x > 0 && vectorBetween.z < 0)
-        {
-            result = 90 + degree * Mathf.Rad2Deg + 90;
-            return result;
-        }
-        if (vectorBetween.x < 0 && vectorBetween.z < 0)
-        {
-            result = 180 + degree * Mathf.Rad2Deg;
-            return result;
-        }
-        result = 270 + degree * Mathf.Rad2Deg + 90;
-        return result;
+        float degree = Mathf.Atan2(vectorBetween.x, vectorBetween.z) * Mathf.Rad2Deg;
+        return (degree + 360f) % 360f;
     }
     private IEnumerator WaitForBallsToStop()
     {

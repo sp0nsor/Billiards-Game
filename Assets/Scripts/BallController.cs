@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 
-public enum BallType { NULL, WHITE, HALF, FULL, BLACK };
+public enum BallType { BLACK, WHITE };
 [RequireComponent(typeof(SphereCollider))]
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
+    [SerializeField] private AudioSource audioSource;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         PhysicsController.physicsDelegate += ApplyPhysics;
+        
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -26,6 +29,10 @@ public class BallController : MonoBehaviour
 
             _rb.angularVelocity = -_rb.angularVelocity;
         }
+        // if (other.gameObject.tag == "Ball")
+        // {
+        //     audioSource.Play();
+        // }
     }
     public void ManageVelocity()
     {
@@ -54,10 +61,10 @@ public class BallController : MonoBehaviour
     public void GotPocketed()
     {
         GameController.instance.CheckPocketedBall(this);
-        if (ballType == BallType.HALF || ballType == BallType.FULL)
+        if (ballType == BallType.BLACK || ballType == BallType.WHITE)
         {
             PhysicsController.physicsDelegate -= ApplyPhysics;
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 1f);
         }
     }
     public BallType getBallType()

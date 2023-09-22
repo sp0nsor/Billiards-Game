@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<BallController> Balls = new List<BallController>();
     [SerializeField] private List<StrikeBall> Player1Balls = new List<StrikeBall>(), Player2Balls = new List<StrikeBall>();
     private StrikeBall activePlayer1Ball, activePlayer2Ball;
+    private System.Random random = new System.Random();
     private bool didPocketOwnBall = false;
     public static GameController instance;
 
@@ -37,8 +38,8 @@ public class GameController : MonoBehaviour
     {
         _uiManager.DisableMenus();
         PhysicsController.instance.SetDefaultPhysics();
-        player1BType = BallType.FULL;
-        player2BType = BallType.HALF;
+        player1BType = BallType.WHITE;
+        player2BType = BallType.BLACK;
     }
     public void CheckPocketedBall(BallController ballController)
     {
@@ -57,30 +58,27 @@ public class GameController : MonoBehaviour
         }
         switch (ballType)
         {
-            case BallType.HALF:
-                if (player1BType == BallType.HALF)
+            case BallType.BLACK:
+                if (player1BType == BallType.BLACK)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
                     StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
-                    SelectBall();
                     didPocketOwnBall = true;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
                     StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
-                    SelectBall();
                     didPocketOwnBall = false;
                 }
                 RemoveFromBalls(ballController);
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 break;
-            case BallType.FULL:
-                if (player1BType == BallType.FULL)
+            case BallType.WHITE:
+                if (player1BType == BallType.WHITE)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
                     StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
-                    SelectBall();
                     didPocketOwnBall = false;
                 }
                 else
@@ -94,12 +92,17 @@ public class GameController : MonoBehaviour
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 break;
         }
+        SelectBall();
     }
     private IEnumerator WaitForBallsToStopAndChangeTurn(GameState newState)
     {
-        yield return new WaitUntil(() => !AreBallsMoving());
+        //yield return new WaitUntil(() => !AreBallsMoving());
+        while(AreBallsMoving())
+        {
+            yield return null;
+        }
 
-        ChangeGameState(newState);
+        _gameState = newState;
     }
     private void ChangeGameState(GameState newState)
     {
@@ -118,17 +121,11 @@ public class GameController : MonoBehaviour
     }
     private StrikeBall GetRandomBall(List<StrikeBall> balls)
     {
-        System.Random random = new System.Random();
         int randomIndex = random.Next(0, balls.Count - 1);
         return balls[randomIndex];
     }
     private void SelectBall()
-    {
-        activePlayer1Ball = GetRandomBall(Player1Balls);
-        activePlayer2Ball = GetRandomBall(Player2Balls);
-        activePlayer1Ball.DisableController();
-        activePlayer2Ball.DisableController();
-        
+    {   
         if(!AreBallsMoving())
         {
             if(StrikeBall.CurrentActiveBall != null)
@@ -137,12 +134,14 @@ public class GameController : MonoBehaviour
             }
             if(_gameState == GameState.PLAYER1TURN)
             {
+                activePlayer1Ball = GetRandomBall(Player1Balls);
                 activePlayer1Ball.EnabledController();
                 activePlayer2Ball.DisableController();
                 StrikeBall.SetCurrentActiveBall(activePlayer1Ball);
             }
             if(_gameState == GameState.PLAYER2TURN)
             {
+                activePlayer2Ball = GetRandomBall(Player2Balls);
                 activePlayer2Ball.EnabledController();
                 activePlayer1Ball.DisableController();
                 StrikeBall.SetCurrentActiveBall(activePlayer2Ball);
@@ -171,16 +170,14 @@ public class GameController : MonoBehaviour
     }
     public bool AreBallsMoving()
     {
-        bool temp = false;
         foreach (BallController ballController in Balls)
         {
             if (ballController.isMoving())
             {
-                temp = true;
-                break;
+                return true;
             }
         }
-        return temp;
+        return false;
     }
     public void RemoveFromBalls(BallController ballController)
     {
