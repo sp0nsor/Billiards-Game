@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq.Expressions;
 using UnityEngine;
 
 public enum GameState { START, PLAYER1TURN, PLAYER2TURN, END }
@@ -7,7 +9,6 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private GameState _gameState = GameState.START;
     [SerializeField] private GameState _previousState = GameState.START;
-    [SerializeField] private bool foul;
     [SerializeField] private BallType player1BType, player2BType;
     [SerializeField] private LayerMask tableLayer;
     [SerializeField] private Vector3 waitingPoint;
@@ -15,9 +16,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<int> P1PocketedBalls = new List<int>(), P2PocketedBalls = new List<int>();
     [SerializeField] private List<BallController> Balls = new List<BallController>();
     [SerializeField] private List<StrikeBall> Player1Balls = new List<StrikeBall>(), Player2Balls = new List<StrikeBall>();
+    private WaitForSeconds waitForBallsStopTime = new WaitForSeconds(0.15f);
     private StrikeBall activePlayer1Ball, activePlayer2Ball;
-    private System.Random random = new System.Random();
     private bool didPocketOwnBall = false;
+    private bool coroutineIsRunning = false;
     public static GameController instance;
 
     private void Awake()
@@ -30,7 +32,6 @@ public class GameController : MonoBehaviour
         {
             instance = this;
         }
-        foul = false;
         _gameState = GameState.PLAYER1TURN;
 
     }
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
     }
     public void CheckPocketedBall(BallController ballController)
     {
+        StopAllCoroutines();
         BallType ballType = ballController.getBallType();
         if (P1PocketedBalls.Count == 7)
         {
@@ -56,110 +58,155 @@ public class GameController : MonoBehaviour
             RemoveFromBalls(ballController);
             _gameState = GameState.END;
         }
+        // if (ballType == BallType.BLACK)
+        // {
+        //     if (_gameState == GameState.PLAYER1TURN)
+        //     {
+        //         P1PocketedBalls.Add(ballController.getBallNumber());
+        //         didPocketOwnBall = false;
+        //     }
+        //     else if (_gameState == GameState.PLAYER2TURN)
+        //     {
+        //         P1PocketedBalls.Add(ballController.getBallNumber());
+        //         didPocketOwnBall = true;
+        //     }
+        //     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+        //     RemoveFromBalls(ballController);
+        //     StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
+        // }
+        // else if (ballType == BallType.WHITE)
+        // {
+        //     if (_gameState == GameState.PLAYER1TURN)
+        //     {
+        //         P2PocketedBalls.Add(ballController.getBallNumber());
+        //         didPocketOwnBall = true;
+        //     }
+        //     else if (_gameState == GameState.PLAYER2TURN)
+        //     {
+        //         P2PocketedBalls.Add(ballController.getBallNumber());
+        //         didPocketOwnBall = false;
+        //     }
+        //     _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+        //     RemoveFromBalls(ballController);
+        //     StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
+        // }
+
         switch (ballType)
         {
             case BallType.BLACK:
                 if (player1BType == BallType.BLACK)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
                     didPocketOwnBall = true;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER2TURN));
                     didPocketOwnBall = false;
                 }
                 RemoveFromBalls(ballController);
+                if (!coroutineIsRunning)
+                {
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
+                }
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 break;
             case BallType.WHITE:
                 if (player1BType == BallType.WHITE)
                 {
                     P1PocketedBalls.Add(ballController.getBallNumber());
-                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
                     didPocketOwnBall = false;
                 }
                 else
                 {
                     P2PocketedBalls.Add(ballController.getBallNumber());
-                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
-                    SelectBall();
                     didPocketOwnBall = true;
                 }
                 RemoveFromBalls(ballController);
+                if (!coroutineIsRunning)
+                {
+                    StartCoroutine(WaitForBallsToStopAndChangeTurn(GameState.PLAYER1TURN));
+                }
                 _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
                 break;
         }
-        SelectBall();
     }
     private IEnumerator WaitForBallsToStopAndChangeTurn(GameState newState)
     {
-        //yield return new WaitUntil(() => !AreBallsMoving());
-        while(AreBallsMoving())
+        coroutineIsRunning = true;
+        yield return waitForBallsStopTime;
+        while (AreBallsMoving())
         {
-            yield return null;
+            yield return waitForBallsStopTime;
         }
 
+        coroutineIsRunning = false;
         _gameState = newState;
+        SelectBall();
+    }
+    private StrikeBall GetBall(List<StrikeBall> balls)
+    {
+        return balls[2];
+    }
+    private void SelectBall()
+    {
+        if (StrikeBall.CurrentActiveBall != null)
+        {
+            StrikeBall.CurrentActiveBall.DisableController();
+        }
+        if (_gameState == GameState.PLAYER1TURN)
+        {
+            activePlayer1Ball = GetBall(Player1Balls);
+            activePlayer1Ball.EnabledController();
+            activePlayer1Ball.EnabledStick();
+            StrikeBall.SetCurrentActiveBall(activePlayer1Ball);
+        }
+        if (_gameState == GameState.PLAYER2TURN)
+        {
+            activePlayer2Ball = GetBall(Player2Balls);
+            activePlayer2Ball.EnabledController();
+            activePlayer2Ball.EnabledStick();
+            StrikeBall.SetCurrentActiveBall(activePlayer2Ball);
+        }
     }
     private void ChangeGameState(GameState newState)
     {
-        if (newState == _gameState)
-        {
-            SelectBall();
-            return;
-        }
         if (_previousState == GameState.PLAYER1TURN && newState != GameState.PLAYER2TURN ||
-            _previousState == GameState.PLAYER2TURN && newState != GameState.PLAYER1TURN) 
+            _previousState == GameState.PLAYER2TURN && newState != GameState.PLAYER1TURN)
         {
             return;
         }
         _previousState = _gameState;
         _gameState = newState;
     }
-    private StrikeBall GetRandomBall(List<StrikeBall> balls)
-    {
-        int randomIndex = random.Next(0, balls.Count - 1);
-        return balls[randomIndex];
-    }
-    private void SelectBall()
-    {   
-        if(!AreBallsMoving())
-        {
-            if(StrikeBall.CurrentActiveBall != null)
-            {
-                StrikeBall.CurrentActiveBall.DisableController();
-            }
-            if(_gameState == GameState.PLAYER1TURN)
-            {
-                activePlayer1Ball = GetRandomBall(Player1Balls);
-                activePlayer1Ball.EnabledController();
-                activePlayer2Ball.DisableController();
-                StrikeBall.SetCurrentActiveBall(activePlayer1Ball);
-            }
-            if(_gameState == GameState.PLAYER2TURN)
-            {
-                activePlayer2Ball = GetRandomBall(Player2Balls);
-                activePlayer2Ball.EnabledController();
-                activePlayer1Ball.DisableController();
-                StrikeBall.SetCurrentActiveBall(activePlayer2Ball);
-            }
-        }
-    }
-
     public Vector3 GetWaitingPoint()
     {
         return waitingPoint;
     }
     public void CheckChangeTurn()
     {
+        // if (!ballInPocket)
+        // {
+        //     if (!didPocketOwnBall)
+        //     {
+        //         _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
+        //         _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
+        //         SelectBall();
+        //         return;
+        //     }
+        //     didPocketOwnBall = false;
+        // }
+        // else
+        // {
+        //     ballInPocket = false;
+        //     return;
+        // }
+
         if (!didPocketOwnBall)
         {
             _gameState = _gameState == GameState.PLAYER1TURN ? GameState.PLAYER2TURN : GameState.PLAYER1TURN;
             _uiManager.UpdateUI(P1PocketedBalls, P2PocketedBalls);
-            ChangeGameState(_gameState);
+            SelectBall();
             return;
         }
         didPocketOwnBall = false;

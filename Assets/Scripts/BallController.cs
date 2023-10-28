@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -10,14 +11,18 @@ public class BallController : MonoBehaviour
     private Rigidbody _rb;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
-    [SerializeField] private AudioSource audioSource;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
         PhysicsController.physicsDelegate += ApplyPhysics;
-        
     }
+
+    private void Update()
+    {
+        RoundSpeed();
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Band")
@@ -29,26 +34,25 @@ public class BallController : MonoBehaviour
 
             _rb.angularVelocity = -_rb.angularVelocity;
         }
-        // if (other.gameObject.tag == "Ball")
-        // {
-        //     audioSource.Play();
-        // }
     }
+
     public void ManageVelocity()
     {
         _rb.velocity = _rb.velocity * 0.9985f;
         _rb.angularVelocity = _rb.angularVelocity * 0.9985f;
-        if (ballType == BallType.WHITE) { Debug.Log(_rb.velocity); }
     }
+
     public IEnumerator ManageVelocityEnum()
     {
         while (true)
         {
             _rb.velocity = _rb.velocity * 0.991f;
             _rb.angularVelocity = _rb.angularVelocity * 0.991f;
+
             yield return new WaitForFixedUpdate();
         }
     }
+
     public void ApplyPhysics()
     {
         if (_rb != null)
@@ -58,23 +62,37 @@ public class BallController : MonoBehaviour
             _rb.drag = PhysicsController.instance.getDrag();
         }
     }
+
     public void GotPocketed()
     {
         GameController.instance.CheckPocketedBall(this);
+        //GameController.instance.StartCoroutine(GameController.instance.CheckPocketedBall(this));
         if (ballType == BallType.BLACK || ballType == BallType.WHITE)
         {
             PhysicsController.physicsDelegate -= ApplyPhysics;
-            Destroy(gameObject, 1f);
+            Destroy(gameObject);
         }
     }
+
+    private void RoundSpeed()
+    {
+        if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0004f))
+        {
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+        }
+    }
+
     public BallType getBallType()
     {
         return ballType;
     }
+
     public int getBallNumber()
     {
         return ballNumber;
     }
+
     public bool isMoving()
     {
         return _rb.velocity.magnitude != 0;

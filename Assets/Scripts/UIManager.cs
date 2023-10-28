@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RectTransform canvas;
     [SerializeField] private Camera mainCam, uiCam;
     [SerializeField] private Color fillColor;
+
     private void Start()
     {
         SetupUI();
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
         UpdateSliders();
         mainCam = Camera.main;
     }
+
     public void ShowGameMenu()
     {
         if (!gameMenu.activeSelf && !settings.activeSelf)
@@ -37,16 +39,19 @@ public class UIManager : MonoBehaviour
             DisableMenus();
         }
     }
+
     public void DisableMenus()
     {
         gameMenu.SetActive(false);
         settings.SetActive(false);
         Time.timeScale = 1;
     }
+
     public void SetUpSliders()
     {
         massSlider.value = PhysicsController.instance.getDefaultBallMass();
-        massSlider.onValueChanged.AddListener((v) => {
+        massSlider.onValueChanged.AddListener((v) =>
+        {
             PhysicsController.instance.setTempMass(v);
             if (v.ToString().Length > 4)
                 massText.text = v.ToString().Substring(0, 4);
@@ -54,7 +59,8 @@ public class UIManager : MonoBehaviour
                 massText.text = v.ToString();
         });
         dragSlider.value = PhysicsController.instance.getDefaultDrag();
-        dragSlider.onValueChanged.AddListener((v) => {
+        dragSlider.onValueChanged.AddListener((v) =>
+        {
             PhysicsController.instance.setTempDrag(v);
             if (v.ToString().Length > 4)
                 dragText.text = v.ToString().Substring(0, 4);
@@ -62,7 +68,8 @@ public class UIManager : MonoBehaviour
                 dragText.text = v.ToString();
         });
         angDragSlider.value = PhysicsController.instance.getDefaultAngularDrag();
-        angDragSlider.onValueChanged.AddListener((v) => {
+        angDragSlider.onValueChanged.AddListener((v) =>
+        {
             PhysicsController.instance.setTempAngularDrag(v);
             if (v.ToString().Length > 4)
                 angDragText.text = v.ToString().Substring(0, 4);
@@ -89,17 +96,20 @@ public class UIManager : MonoBehaviour
             temp = temp.Substring(0, 4);
         angDragText.text = temp;
     }
+
     public void ApplyPhysicsButton()
     {
         PhysicsController.instance.ApplyPhysicsChanges();
         PhysicsController.physicsDelegate.Invoke();
     }
+
     public void onDefaultPhysicsButton()
     {
         PhysicsController.instance.SetDefaultPhysics();
         UpdateSliders();
         PhysicsController.physicsDelegate.Invoke();
     }
+
     public void onMenuCloseButton(string menuName)
     {
         string temp = string.Concat(menuName.Where(c => !char.IsWhiteSpace(c)));
@@ -114,22 +124,26 @@ public class UIManager : MonoBehaviour
             gameMenu.SetActive(true);
         }
     }
+
     public void onResumeButtonClick()
     {
         DisableMenus();
     }
+
     public void onSettingsButtonClick()
     {
         gameMenu.SetActive(false);
         UpdateSliders();
         settings.SetActive(true);
     }
+
     public void onMainMenuButtonClick()
     {
         StrikeBall.SetFirstMove(true);
         Time.timeScale = 1;
         SceneManager.LoadScene("Main menu");
     }
+
     public void onExitButtonClick()
     {
         Application.Quit();

@@ -9,11 +9,10 @@ public class StrikeBall : MonoBehaviour
     [SerializeField] private Slider slider;
     private LineRenderer lineRenderer;
     private Rigidbody rb;
-    private float yawSpeed;
-    private float currentYaw = 0f, yawSpeedPlus = 0f, horizontalAxis;
+    private float currentYaw = 0f;
     private Vector3 shotForce = Vector3.forward * 2;
     private float shotAngle, shotPower = 1;
-    private bool hitBall = false, stickHit = false, isTakingShot = false, isControllerEnabled = true;
+    private bool isTakingShot = false;
     private Camera mainCam;
     private GameController _gameController;
     private UIManager _uiManager;
@@ -23,6 +22,7 @@ public class StrikeBall : MonoBehaviour
     private static bool firstMove = true;
     private Vector2 touchStartPos;
     private BallController ballController;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,12 +31,10 @@ public class StrikeBall : MonoBehaviour
         _gameController = GameController.instance;
         lineRenderer = FindObjectOfType<LineRenderer>();
         ballController = GetComponent<BallController>();
-        stickHit = false;
     }
+
     private void Update()
     {
-        if (Time.timeScale == 0)
-            return;
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -51,12 +49,8 @@ public class StrikeBall : MonoBehaviour
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
                     currentYaw = CalculateDegree(transform.position, hit.point);
             }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                yawSpeedPlus = 0f;
-            }
         }
-        if (slider.value > 1 && handleShotPowerCoroutine == null)
+        if (slider.value > 1 && handleShotPowerCoroutine == null && isTakingShot == false)
         {
             handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
         }
@@ -67,12 +61,12 @@ public class StrikeBall : MonoBehaviour
             shotPower = 1;
             _uiManager.DisableShotSlider();
             isTakingShot = false;
-            currentActiveBall.DisableController();
         }
 
         ManageRotation();
         ManageLine();
     }
+
     private void ManageRotation()
     {
         float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
@@ -86,6 +80,7 @@ public class StrikeBall : MonoBehaviour
         shotAngle = stick.transform.eulerAngles.y;
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
     }
+
     private void ManageLine()
     {
         lineRenderer.enabled = true;
@@ -96,12 +91,11 @@ public class StrikeBall : MonoBehaviour
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, targetPosition);
     }
+
     private IEnumerator HandleShotPower()
     {
         isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
-        yield return shotPoweringUpTime;
-
         while (true)
         {
             Touch touch = Input.GetTouch(0);
@@ -119,7 +113,6 @@ public class StrikeBall : MonoBehaviour
             yield return shotPoweringUpTime;
         }
         stick.SetActive(false);
-        stickHit = false;
         _uiManager.DisableShotSlider();
         lineRenderer.enabled = false;
         Shoot();
@@ -127,8 +120,8 @@ public class StrikeBall : MonoBehaviour
         isTakingShot = false;
         shotPower = 1;
         slider.value = 1;
-
     }
+
     private void Shoot()
     {
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
@@ -136,70 +129,69 @@ public class StrikeBall : MonoBehaviour
         DisableController();
         StartCoroutine(WaitForBallsToStop());
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, transform.position + shotForce);
     }
+
     private float CalculateDegree(Vector3 from, Vector3 to)
     {
         Vector3 vectorBetween = to - from;
         float degree = Mathf.Atan2(vectorBetween.x, vectorBetween.z) * Mathf.Rad2Deg;
+
         return (degree + 360f) % 360f;
     }
+
     private IEnumerator WaitForBallsToStop()
     {
         yield return waitForBallsStopTime;
+
         while (_gameController.AreBallsMoving())
         {
             yield return waitForBallsStopTime;
         }
-        slider.interactable = true; 
-        stick.SetActive(true);
+        slider.interactable = true;
         _gameController.CheckChangeTurn();
-        hitBall = false;
     }
-    private void OnCollisionEnter(Collision other)
-    {
-        BallController ballController = other.gameObject.GetComponent<BallController>();
-        if (!hitBall && ballController != null)
-        {
-            hitBall = true;
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Stick")
-        {
-            stickHit = true;
-        }
-    }
+
     public static void SetCurrentActiveBall(StrikeBall ball)
     {
         currentActiveBall = ball;
     }
+
     public static void SetFirstMove(bool value)
     {
         firstMove = value;
     }
+
     public BallController GetBallController()
     {
         return ballController;
     }
+
     public static StrikeBall CurrentActiveBall
     {
         get { return currentActiveBall; }
     }
+
     public static bool FirstMove
     {
         get { return firstMove; }
     }
+
     public void EnabledController()
     {
         enabled = true;
     }
+
     public void DisableController()
     {
         enabled = false;
     }
 
+    public void EnabledStick()
+    {
+        stick.SetActive(true);
+    }
 }
