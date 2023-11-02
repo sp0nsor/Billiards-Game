@@ -96,6 +96,8 @@ public class StrikeBall : MonoBehaviour
     {
         isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
+        yield return shotPoweringUpTime;
+
         while (true)
         {
             Touch touch = Input.GetTouch(0);
@@ -120,14 +122,14 @@ public class StrikeBall : MonoBehaviour
         isTakingShot = false;
         shotPower = 1;
         slider.value = 1;
+        DisableController();
     }
 
     private void Shoot()
     {
         shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
         rb.AddForce(shotForce, ForceMode.Impulse);
-        DisableController();
-        StartCoroutine(WaitForBallsToStop());
+        GameController.instance.StartCoroutine(GameController.instance.WaitForBallsToStop());
     }
 
     private void OnDrawGizmos()
@@ -141,18 +143,6 @@ public class StrikeBall : MonoBehaviour
         float degree = Mathf.Atan2(vectorBetween.x, vectorBetween.z) * Mathf.Rad2Deg;
 
         return (degree + 360f) % 360f;
-    }
-
-    private IEnumerator WaitForBallsToStop()
-    {
-        yield return waitForBallsStopTime;
-
-        while (_gameController.AreBallsMoving())
-        {
-            yield return waitForBallsStopTime;
-        }
-        slider.interactable = true;
-        _gameController.CheckChangeTurn();
     }
 
     public static void SetCurrentActiveBall(StrikeBall ball)

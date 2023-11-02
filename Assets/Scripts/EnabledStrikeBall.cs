@@ -11,7 +11,7 @@ public class EnabledStrikeBall : MonoBehaviour
         strikeBall = GetComponent<StrikeBall>();
         ballController = GetComponent<BallController>();
 
-        if (strikeBall != null && StrikeBall.FirstMove == false)
+        if (strikeBall != null)
         {
             if (StrikeBall.CurrentActiveBall != null)
             {

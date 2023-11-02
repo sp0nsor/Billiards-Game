@@ -66,11 +66,10 @@ public class BallController : MonoBehaviour
     public void GotPocketed()
     {
         GameController.instance.CheckPocketedBall(this);
-        //GameController.instance.StartCoroutine(GameController.instance.CheckPocketedBall(this));
         if (ballType == BallType.BLACK || ballType == BallType.WHITE)
         {
             PhysicsController.physicsDelegate -= ApplyPhysics;
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
     }
 
