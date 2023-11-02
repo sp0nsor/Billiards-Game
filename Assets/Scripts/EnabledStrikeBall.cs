@@ -11,7 +11,7 @@ public class EnabledStrikeBall : MonoBehaviour
         strikeBall = GetComponent<StrikeBall>();
         ballController = GetComponent<BallController>();
 
-        if (strikeBall != null && StrikeBall.FirstMove == false)
+        if (strikeBall != null)
         {
             if (StrikeBall.CurrentActiveBall != null)
             {
@@ -19,12 +19,12 @@ public class EnabledStrikeBall : MonoBehaviour
             }
             if (GameController.instance.AreBallsMoving() == false)
             {
-                if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.FULL)
+                if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.WHITE)
                 {
                     strikeBall.EnabledController();
                     StrikeBall.SetCurrentActiveBall(strikeBall);
                 }
-                if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.HALF)
+                if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.BLACK)
                 {
                     strikeBall.EnabledController();
                     StrikeBall.SetCurrentActiveBall(strikeBall);
