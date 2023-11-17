@@ -9,12 +9,17 @@ public enum BallType { BLACK, WHITE };
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
+    private AudioSource _audioSourse;
+    private float speed, maxSpeed = 0.008f, volume;
+    [SerializeField] private AudioClip collisionSound;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
+
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _audioSourse = gameObject.GetComponent<AudioSource>();
         PhysicsController.physicsDelegate += ApplyPhysics;
     }
 
@@ -25,6 +30,15 @@ public class BallController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.tag == "Ball")
+        {
+            if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) > Mathf.Sqrt(0.0032f))
+            {
+                speed = _rb.velocity.magnitude;
+                volume = Mathf.Clamp01(speed);
+                PlayCollisionSound(volume);
+            }
+        }
         if (other.gameObject.tag == "Band")
         {
             Vector3 objectDir = transform.forward;
@@ -69,7 +83,7 @@ public class BallController : MonoBehaviour
         if (ballType == BallType.BLACK || ballType == BallType.WHITE)
         {
             PhysicsController.physicsDelegate -= ApplyPhysics;
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 1f);
         }
     }
 
@@ -80,6 +94,11 @@ public class BallController : MonoBehaviour
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
+    }
+
+    private void PlayCollisionSound(float volume)
+    {
+        _audioSourse.PlayOneShot(_audioSourse.clip, volume);
     }
 
     public BallType getBallType()
