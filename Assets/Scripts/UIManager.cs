@@ -166,10 +166,10 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateShotSlider(float shotPower)
     {
-        shotPowerSlider.value = shotPower;
+        shotPowerSlider.value = shotPower + 10;
         float red, green, blue;
         red = 5.1f * shotPower;
-        green = 255 - 5.1f * (shotPower - 50);
+        green = 255 - 5.1f * (shotPower + 10);
         blue = 0;
         red = Mathf.Clamp(red, 0, 255);
         green = Mathf.Clamp(green, 0, 255);
