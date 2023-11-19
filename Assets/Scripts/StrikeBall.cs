@@ -17,7 +17,7 @@ public class StrikeBall : MonoBehaviour
     private GameController _gameController;
     private UIManager _uiManager;
     private Coroutine handleShotPowerCoroutine = null;
-    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f), waitForBallsStopTime = new WaitForSeconds(0.15f);
+    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f);
     private static StrikeBall currentActiveBall;
     private static bool firstMove = true;
     private Vector2 touchStartPos;

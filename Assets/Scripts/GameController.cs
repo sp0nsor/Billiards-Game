@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<BallController> Balls = new List<BallController>();
     [SerializeField] private List<StrikeBall> Player1Balls = new List<StrikeBall>(), Player2Balls = new List<StrikeBall>();
     //[SerializeField] private Stack<StrikeBall> strikeBallsP1 = new Stack<StrikeBall>(), strikeBallsP2 = new Stack<StrikeBall>();
-    private WaitForSeconds waitForBallsStopTime = new WaitForSeconds(0.15f);
+    private WaitForSeconds waitForBallsStopTime = new WaitForSeconds(1f);
     private StrikeBall activePlayer1Ball, activePlayer2Ball;
     private bool coroutineIsRunning = false;
     private bool ballInPocket = false;
