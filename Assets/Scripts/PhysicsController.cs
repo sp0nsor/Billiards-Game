@@ -24,7 +24,6 @@ public class PhysicsController : MonoBehaviour
         {
             instance = this;
         }
-        Application.targetFrameRate = 60;
     }
     void Start()
     {

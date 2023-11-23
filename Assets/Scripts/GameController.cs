@@ -47,18 +47,6 @@ public class GameController : MonoBehaviour
     {
         ballInPocket = true;
         BallType ballType = ballController.getBallType();
-        if (P1PocketedBalls.Count == 7)
-        {
-            _uiManager.OnGameEnd("Player 2 wins");
-            RemoveFromBalls(ballController);
-            _gameState = GameState.END;
-        }
-        if (P2PocketedBalls.Count == 7)
-        {
-            _uiManager.OnGameEnd("Player 1 wins");
-            RemoveFromBalls(ballController);
-            _gameState = GameState.END;
-        }
         switch (ballType)
         {
             case BallType.BLACK:
@@ -94,7 +82,20 @@ public class GameController : MonoBehaviour
                 }
                 break;
         }
+        if (P1PocketedBalls.Count == 8)
+        {
+            _uiManager.OnGameEnd("Player 2 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
+        if (P2PocketedBalls.Count == 8)
+        {
+            _uiManager.OnGameEnd("Player 1 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
     }
+
     private IEnumerator WaitForBallsToStopAndChangeTurn(GameState newState)
     {
         coroutineIsRunning = true;

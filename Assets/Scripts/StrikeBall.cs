@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 public class StrikeBall : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class StrikeBall : MonoBehaviour
     private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f);
     private static StrikeBall currentActiveBall;
     private static bool firstMove = true;
-    private Vector2 touchStartPos;
     private BallController ballController;
 
     void Start()
@@ -39,15 +39,13 @@ public class StrikeBall : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
-            {
-                touchStartPos = touch.position;
-            }
-            else if (touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Moved)
             {
                 Ray ray = mainCam.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
+                {
                     currentYaw = CalculateDegree(transform.position, hit.point);
+                }
             }
         }
         if (slider.value > 1 && handleShotPowerCoroutine == null && isTakingShot == false)
@@ -69,7 +67,7 @@ public class StrikeBall : MonoBehaviour
 
     private void ManageRotation()
     {
-        float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+        float distanceFromBall = 0.1f + (0.2f * shotPower / 90);
         if (!isTakingShot)
         {
             stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
@@ -107,7 +105,7 @@ public class StrikeBall : MonoBehaviour
 
             shotPower = slider.value;
             _uiManager.UpdateShotSlider(shotPower);
-            float distanceFromBall = 0.1f + (0.2f * shotPower / 100);
+            float distanceFromBall = 0.1f + (0.2f * shotPower / 90);
 
             stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
             stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);

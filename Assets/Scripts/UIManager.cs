@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviour
     #region Shot Power Slider
     public void EnableShotSlider(Vector3 pos)
     {
-        var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.10f, 0, -0.06f));
+        var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.10f, 0, -0.055f));
         screen.z = (canvas.transform.position - uiCam.transform.position).magnitude;
         var position = uiCam.ScreenToWorldPoint(screen);
         shotPowerSlider.transform.position = position;

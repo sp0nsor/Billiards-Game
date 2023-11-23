@@ -8,27 +8,21 @@ public class EnabledStrikeBall : MonoBehaviour
     private BallController ballController;
     private void OnMouseDown()
     {
-        strikeBall = GetComponent<StrikeBall>();
-        ballController = GetComponent<BallController>();
-
-        if (strikeBall != null)
+        if (GameController.instance.AreBallsMoving() == false)
         {
-            if (StrikeBall.CurrentActiveBall != null)
+            StrikeBall.CurrentActiveBall.DisableController();
+            strikeBall = GetComponent<StrikeBall>();
+            ballController = GetComponent<BallController>();
+
+            if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.WHITE)
             {
-                StrikeBall.CurrentActiveBall.DisableController();
+                strikeBall.EnabledController();
+                StrikeBall.SetCurrentActiveBall(strikeBall);
             }
-            if (GameController.instance.AreBallsMoving() == false)
+            if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.BLACK)
             {
-                if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.WHITE)
-                {
-                    strikeBall.EnabledController();
-                    StrikeBall.SetCurrentActiveBall(strikeBall);
-                }
-                if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.BLACK)
-                {
-                    strikeBall.EnabledController();
-                    StrikeBall.SetCurrentActiveBall(strikeBall);
-                }
+                strikeBall.EnabledController();
+                StrikeBall.SetCurrentActiveBall(strikeBall);
             }
         }
     }
