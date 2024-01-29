@@ -32,11 +32,11 @@ public class BallController : MonoBehaviour
     {
         if (other.gameObject.tag == "Ball")
         {
-            if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) > Mathf.Sqrt(0.0032f))
+            if (_rb.velocity.sqrMagnitude > 0.004f)
             {
                 speed = _rb.velocity.magnitude;
                 volume = Mathf.Clamp01(speed);
-                PlayCollisionSound(volume);
+                PlayCollisionSound(speed / 2);
             }
         }
         if (other.gameObject.tag == "Band")
@@ -80,16 +80,13 @@ public class BallController : MonoBehaviour
     public void GotPocketed()
     {
         GameController.instance.CheckPocketedBall(this);
-        if (ballType == BallType.BLACK || ballType == BallType.WHITE)
-        {
-            PhysicsController.physicsDelegate -= ApplyPhysics;
-            Destroy(gameObject, 1f);
-        }
+        PhysicsController.physicsDelegate -= ApplyPhysics;
+        Destroy(gameObject, 1f);
     }
 
     private void RoundSpeed()
     {
-        if (Mathf.Sqrt(Mathf.Pow(_rb.velocity.x, 2) + Mathf.Pow(_rb.velocity.y, 2) + Mathf.Pow(_rb.velocity.z, 2)) <= Mathf.Sqrt(0.0004f))
+        if (_rb.velocity.sqrMagnitude <= 0.002f)
         {
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;

@@ -151,7 +151,7 @@ public class UIManager : MonoBehaviour
     #region Shot Power Slider
     public void EnableShotSlider(Vector3 pos)
     {
-        var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.1f, 0, 0));
+        var screen = mainCam.WorldToScreenPoint(pos + new Vector3(0.10f, 0, -0.055f));
         screen.z = (canvas.transform.position - uiCam.transform.position).magnitude;
         var position = uiCam.ScreenToWorldPoint(screen);
         shotPowerSlider.transform.position = position;
@@ -166,10 +166,10 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateShotSlider(float shotPower)
     {
-        shotPowerSlider.value = shotPower;
+        shotPowerSlider.value = shotPower + 5;
         float red, green, blue;
-        red = 5.1f * shotPower;
-        green = 255 - 5.1f * (shotPower - 50);
+        red = 5.1f * shotPower + 5;
+        green = 255 - 5.1f * (shotPower);
         blue = 0;
         red = Mathf.Clamp(red, 0, 255);
         green = Mathf.Clamp(green, 0, 255);

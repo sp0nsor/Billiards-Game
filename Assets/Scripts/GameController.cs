@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<BallController> Balls = new List<BallController>();
     [SerializeField] private List<StrikeBall> Player1Balls = new List<StrikeBall>(), Player2Balls = new List<StrikeBall>();
     //[SerializeField] private Stack<StrikeBall> strikeBallsP1 = new Stack<StrikeBall>(), strikeBallsP2 = new Stack<StrikeBall>();
-    private WaitForSeconds waitForBallsStopTime = new WaitForSeconds(0.15f);
+    private WaitForSeconds waitForBallsStopTime = new WaitForSeconds(1f);
     private StrikeBall activePlayer1Ball, activePlayer2Ball;
     private bool coroutineIsRunning = false;
     private bool ballInPocket = false;
@@ -47,18 +47,6 @@ public class GameController : MonoBehaviour
     {
         ballInPocket = true;
         BallType ballType = ballController.getBallType();
-        if (P1PocketedBalls.Count == 7)
-        {
-            _uiManager.OnGameEnd("Player 2 wins");
-            RemoveFromBalls(ballController);
-            _gameState = GameState.END;
-        }
-        if (P2PocketedBalls.Count == 7)
-        {
-            _uiManager.OnGameEnd("Player 1 wins");
-            RemoveFromBalls(ballController);
-            _gameState = GameState.END;
-        }
         switch (ballType)
         {
             case BallType.BLACK:
@@ -94,7 +82,20 @@ public class GameController : MonoBehaviour
                 }
                 break;
         }
+        if (P1PocketedBalls.Count == 8)
+        {
+            _uiManager.OnGameEnd("Player 2 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
+        if (P2PocketedBalls.Count == 8)
+        {
+            _uiManager.OnGameEnd("Player 1 wins");
+            RemoveFromBalls(ballController);
+            _gameState = GameState.END;
+        }
     }
+
     private IEnumerator WaitForBallsToStopAndChangeTurn(GameState newState)
     {
         coroutineIsRunning = true;
