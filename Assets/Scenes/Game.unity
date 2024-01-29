@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4395019, g: 0.48777217, b: 0.56836724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44199368, g: 0.4909618, b: 0.5709003, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -748,7 +748,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onExitButtonClick
+        m_MethodName: OnExitButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -847,7 +847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 8
 --- !u!114 &87503871
@@ -862,8 +861,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &87503876
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1215,7 +1216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 261.9693, y: -12}
+  m_AnchoredPosition: {x: 261.96933, y: -12}
   m_SizeDelta: {x: 174.1, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &171336097
@@ -1828,7 +1829,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onExitButtonClick
+        m_MethodName: OnExitButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2988,8 +2989,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!54 &327105784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3036,7 +3039,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 0
 --- !u!82 &327105795
@@ -3605,7 +3607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 11
 --- !u!114 &364777583
@@ -3620,8 +3621,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &364777588
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4337,7 +4340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 14
 --- !u!114 &426169502
@@ -4352,8 +4354,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &426169507
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5587,7 +5591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 1
 --- !u!114 &539606448
@@ -5602,8 +5605,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &539606453
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5881,7 +5886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 7
 --- !u!114 &558366970
@@ -5896,8 +5900,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &558366975
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6940,7 +6946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 5
 --- !u!114 &659542726
@@ -6955,8 +6960,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &659542731
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7082,18 +7089,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1880dd89fe7dee41b47d12f27651ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameState: 0
-  _previousState: 0
-  player1BType: 0
-  player2BType: 0
-  tableLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  waitingPoint: {x: 0, y: 0, z: 0}
-  _uiManager: {fileID: 391620750}
-  P1PocketedBalls: 
-  P2PocketedBalls: 
-  Balls:
+  player1Balls:
+  - {fileID: 327105781}
+  - {fileID: 539606448}
+  - {fileID: 1733997761}
+  - {fileID: 724455480}
+  - {fileID: 1001057019}
+  - {fileID: 659542726}
+  - {fileID: 1268695994}
+  - {fileID: 558366970}
+  player2Balls:
+  - {fileID: 87503871}
+  - {fileID: 1297464479}
+  - {fileID: 1448349253}
+  - {fileID: 364777583}
+  - {fileID: 1575759314}
+  - {fileID: 1378468529}
+  - {fileID: 426169502}
+  - {fileID: 1056497385}
+  balls:
   - {fileID: 327105787}
   - {fileID: 539606440}
   - {fileID: 1733997753}
@@ -7110,24 +7124,15 @@ MonoBehaviour:
   - {fileID: 1378468521}
   - {fileID: 426169494}
   - {fileID: 1056497377}
-  Player1Balls:
-  - {fileID: 327105781}
-  - {fileID: 539606448}
-  - {fileID: 1733997761}
-  - {fileID: 724455480}
-  - {fileID: 1001057019}
-  - {fileID: 659542726}
-  - {fileID: 1268695994}
-  - {fileID: 558366970}
-  Player2Balls:
-  - {fileID: 87503871}
-  - {fileID: 1297464479}
-  - {fileID: 1448349253}
-  - {fileID: 364777583}
-  - {fileID: 1575759314}
-  - {fileID: 1378468529}
-  - {fileID: 426169502}
-  - {fileID: 1056497385}
+  p1PocketedBalls: 
+  p2PocketedBalls: 
+  gameState: 0
+  uiManager: {fileID: 391620750}
+  player1BType: 0
+  player2BType: 0
+  tableLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &665016911
 Transform:
   m_ObjectHideFlags: 0
@@ -8100,7 +8105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 3
 --- !u!114 &724455480
@@ -8115,8 +8119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &724455485
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8330,7 +8336,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onResumeButtonClick
+        m_MethodName: OnResumeButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11529,7 +11535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 4
 --- !u!114 &1001057019
@@ -11544,8 +11549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1001057024
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12034,7 +12041,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 15
 --- !u!114 &1056497385
@@ -12049,8 +12055,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1056497390
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14260,7 +14268,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 6
 --- !u!114 &1268695994
@@ -14275,8 +14282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1268695999
 AudioSource:
   m_ObjectHideFlags: 0
@@ -14787,7 +14796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 9
 --- !u!114 &1297464479
@@ -14802,8 +14810,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1297464484
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15870,7 +15880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 13
 --- !u!114 &1378468529
@@ -15885,8 +15894,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1378468534
 AudioSource:
   m_ObjectHideFlags: 0
@@ -16361,7 +16372,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onMenuCloseButton
+        m_MethodName: OnMenuCloseButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16674,7 +16685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 10
 --- !u!114 &1448349253
@@ -16689,8 +16699,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1448349258
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17708,7 +17720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 0
   ballNumber: 12
 --- !u!114 &1575759314
@@ -17723,8 +17734,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1575759319
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18508,7 +18521,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onMainMenuButtonClick
+        m_MethodName: OnMainMenuButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19210,7 +19223,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onDefaultPhysicsButton
+        m_MethodName: OnDefaultPhysicsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19309,7 +19322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd04d0269a65fe4dbd63034ed0a62ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionSound: {fileID: 0}
   ballType: 1
   ballNumber: 2
 --- !u!114 &1733997761
@@ -19324,8 +19336,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a491301299519b489d39507d8fb5367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stick: {fileID: 558442365}
+  _lineRenderer: {fileID: 249217652}
+  _uiManager: {fileID: 391620750}
   slider: {fileID: 1214631466}
+  stick: {fileID: 558442365}
 --- !u!82 &1733997766
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19460,7 +19474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 436.06937, y: -12}
+  m_AnchoredPosition: {x: 436.0693, y: -12}
   m_SizeDelta: {x: 174.1, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743760776
@@ -21240,7 +21254,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onSettingsButtonClick
+        m_MethodName: OnSettingsButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

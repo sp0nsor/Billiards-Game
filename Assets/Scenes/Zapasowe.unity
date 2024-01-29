@@ -1498,7 +1498,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onExitButtonClick
+        m_MethodName: OnExitButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5835,7 +5835,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onResumeButtonClick
+        m_MethodName: OnResumeButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10455,7 +10455,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onMenuCloseButton
+        m_MethodName: OnMenuCloseButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12256,7 +12256,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onMainMenuButtonClick
+        m_MethodName: OnMainMenuButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12839,7 +12839,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onDefaultPhysicsButton
+        m_MethodName: OnDefaultPhysicsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14176,7 +14176,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 391620750}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: onSettingsButtonClick
+        m_MethodName: OnSettingsButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -1,28 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnabledStrikeBall : MonoBehaviour
 {
-    private StrikeBall strikeBall;
-    private BallController ballController;
+    private StrikeBall _strikeBall;
+    private BallController _ballController;
     private void OnMouseDown()
     {
-        if (GameController.instance.AreBallsMoving() == false)
+        if (GameController.Instance.AreBallsMoving() == false)
         {
             StrikeBall.CurrentActiveBall.DisableController();
-            strikeBall = GetComponent<StrikeBall>();
-            ballController = GetComponent<BallController>();
+            _strikeBall = GetComponent<StrikeBall>();
+            _ballController = GetComponent<BallController>();
 
-            if (GameController.instance.GetGameState() == GameState.PLAYER1TURN && ballController.getBallType() == BallType.WHITE)
+            if (GameController.Instance.GetGameState() == GameState.Player1Turn && _ballController.GetBallType() == BallType.White)
             {
-                strikeBall.EnabledController();
-                StrikeBall.SetCurrentActiveBall(strikeBall);
+                _strikeBall.EnabledController();
+                StrikeBall.SetCurrentActiveBall(_strikeBall);
             }
-            if (GameController.instance.GetGameState() == GameState.PLAYER2TURN && ballController.getBallType() == BallType.BLACK)
+            if (GameController.Instance.GetGameState() == GameState.Player2Turn && _ballController.GetBallType() == BallType.Black)
             {
-                strikeBall.EnabledController();
-                StrikeBall.SetCurrentActiveBall(strikeBall);
+                _strikeBall.EnabledController();
+                StrikeBall.SetCurrentActiveBall(_strikeBall);
             }
         }
     }
