@@ -112,12 +112,12 @@ public class StrikeBall : MonoBehaviour
             _uiManager.UpdateShotSlider(_shotPower);
             RotateStickAroundBall();
             
-            yield return _shotPoweringUpTime;
+            yield return null;
         }
         Shoot();
         DisableControlsAfterShot();
-        DisableController();
         GameController.Instance.StartCoroutine(GameController.Instance.WaitForBallsToStop());
+        DisableController();
     }
 
     private void DisableControlsAfterShot()
