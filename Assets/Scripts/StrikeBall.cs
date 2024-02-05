@@ -1,36 +1,35 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 public class StrikeBall : MonoBehaviour
 {
-    public GameObject stick;
+    [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private UIManager _uiManager;
     [SerializeField] private Slider slider;
-    private LineRenderer lineRenderer;
-    private Rigidbody rb;
-    private float currentYaw = 0f;
-    private Vector3 shotForce = Vector3.forward * 2;
-    private float shotAngle, shotPower = 1;
-    private bool isTakingShot = false;
-    private Camera mainCam;
+    public GameObject stick;
+    private Rigidbody _rb;
+    private float _currentYaw = 0f;
+    private Vector3 _shotForce = Vector3.forward * 2;
+    private float _shotAngle, _shotPower = 1;
+    private bool _isTakingShot = false;
+    private Camera _mainCam;
     private GameController _gameController;
-    private UIManager _uiManager;
-    private Coroutine handleShotPowerCoroutine = null;
-    private WaitForSeconds shotPoweringUpTime = new WaitForSeconds(0.03f);
-    private static StrikeBall currentActiveBall;
-    private static bool firstMove = true;
-    private BallController ballController;
+    private Coroutine _handleShotPowerCoroutine = null;
+    private readonly WaitForSeconds _shotPoweringUpTime = new(0.03f);
+    private static StrikeBall _currentActiveBall;
+    private static bool _firstMove = true;
+    private BallController _ballController;
+    private Transform _cachedTransform;
+    private Transform _stickTransform;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        _uiManager = FindObjectOfType<UIManager>();
-        mainCam = Camera.main;
-        _gameController = GameController.instance;
-        lineRenderer = FindObjectOfType<LineRenderer>();
-        ballController = GetComponent<BallController>();
+        _rb = GetComponent<Rigidbody>();
+        _mainCam = Camera.main;
+        _gameController = GameController.Instance;
+        _ballController = GetComponent<BallController>();
+        _cachedTransform = transform;
+        _stickTransform = stick.transform;
     }
 
     private void Update()
@@ -41,60 +40,66 @@ public class StrikeBall : MonoBehaviour
 
             if (touch.phase == TouchPhase.Moved)
             {
-                Ray ray = mainCam.ScreenPointToRay(touch.position);
+                Ray ray = _mainCam.ScreenPointToRay(touch.position);
                 if (Physics.Raycast(ray, out RaycastHit hit, 100f, _gameController.WhatIsTable()))
                 {
-                    currentYaw = CalculateDegree(transform.position, hit.point);
+                    _currentYaw = CalculateDegree(_cachedTransform.position, hit.point);
                 }
             }
         }
-        if (slider.value > 1 && handleShotPowerCoroutine == null && isTakingShot == false)
-        {
-            handleShotPowerCoroutine = StartCoroutine(HandleShotPower());
-        }
-        if (slider.value == 1 && handleShotPowerCoroutine != null)
-        {
-            StopCoroutine(handleShotPowerCoroutine);
-            handleShotPowerCoroutine = null;
-            shotPower = 1;
-            _uiManager.DisableShotSlider();
-            isTakingShot = false;
-        }
+        if (slider.value > 1 && _handleShotPowerCoroutine == null && _isTakingShot == false) { _handleShotPowerCoroutine = StartCoroutine(HandleShotPower()); }
+        if (slider.value == 1 && _handleShotPowerCoroutine != null) { FinishShotHandling(); }
 
         ManageRotation();
         ManageLine();
     }
 
+    private void FinishShotHandling()
+    {
+        StopCoroutine(_handleShotPowerCoroutine);
+        _handleShotPowerCoroutine = null;
+        _shotPower = 1;
+        _uiManager.DisableShotSlider();
+        _isTakingShot = false;
+    }
+
     private void ManageRotation()
     {
-        float distanceFromBall = 0.1f + (0.2f * shotPower / 90);
-        if (!isTakingShot)
+        if (!_isTakingShot)
         {
-            stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
-            stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-            stick.transform.LookAt(transform.position);
+            RotateStickAroundBall();
         }
 
-        shotAngle = stick.transform.eulerAngles.y;
-        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
+        _shotAngle = _stickTransform.eulerAngles.y;
+        _shotForce = Quaternion.Euler(0, _shotAngle, 0) * new Vector3(0, 0, _shotPower / 10 * 0.9f);
+    }
+
+    private void RotateStickAroundBall()
+    {
+        float distanceFromBall = 0.1f + (0.2f * _shotPower / 90);
+        var position = _cachedTransform.position;
+        _stickTransform.position = position - new Vector3(0, 0, distanceFromBall);
+        _stickTransform.RotateAround(position, Vector3.up, _currentYaw);
+        _stickTransform.LookAt(position);
     }
 
     private void ManageLine()
     {
-        lineRenderer.enabled = true;
+        _lineRenderer.enabled = true;
         RaycastHit raycastHit;
-        Physics.Raycast(transform.position, shotForce, out raycastHit);
-        Vector3 startPosition = transform.position,
+        var position = _cachedTransform.position;
+        Physics.Raycast(position, _shotForce, out raycastHit);
+        Vector3 startPosition = position,
         targetPosition = raycastHit.point;
-        lineRenderer.SetPosition(0, startPosition);
-        lineRenderer.SetPosition(1, targetPosition);
+        _lineRenderer.SetPosition(0, startPosition);
+        _lineRenderer.SetPosition(1, targetPosition);
     }
 
     private IEnumerator HandleShotPower()
     {
-        isTakingShot = true;
+        _isTakingShot = true;
         _uiManager.EnableShotSlider(transform.position);
-        yield return shotPoweringUpTime;
+        yield return _shotPoweringUpTime;
 
         while (true)
         {
@@ -103,36 +108,38 @@ public class StrikeBall : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
                 break;
 
-            shotPower = slider.value;
-            _uiManager.UpdateShotSlider(shotPower);
-            float distanceFromBall = 0.1f + (0.2f * shotPower / 90);
-
-            stick.transform.position = transform.position - new Vector3(0, 0, distanceFromBall);
-            stick.transform.RotateAround(transform.position, Vector3.up, currentYaw);
-            stick.transform.LookAt(transform.position);
-            yield return shotPoweringUpTime;
+            _shotPower = slider.value;
+            _uiManager.UpdateShotSlider(_shotPower);
+            RotateStickAroundBall();
+            
+            yield return null;
         }
+        Shoot();
+        DisableControlsAfterShot();
+        GameController.Instance.StartCoroutine(GameController.Instance.WaitForBallsToStop());
+        DisableController();
+    }
+
+    private void DisableControlsAfterShot()
+    {
         stick.SetActive(false);
         _uiManager.DisableShotSlider();
-        lineRenderer.enabled = false;
-        Shoot();
-        firstMove = false;
-        isTakingShot = false;
-        shotPower = 1;
+        _lineRenderer.enabled = false;
+        _firstMove = false;
+        _isTakingShot = false;
+        _shotPower = 1;
         slider.value = 1;
-        DisableController();
     }
 
     private void Shoot()
     {
-        shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
-        rb.AddForce(shotForce, ForceMode.Impulse);
-        GameController.instance.StartCoroutine(GameController.instance.WaitForBallsToStop());
+        _shotForce = Quaternion.Euler(0, _shotAngle, 0) * new Vector3(0, 0, _shotPower / 10 * 0.9f);
+        _rb.AddForce(_shotForce, ForceMode.Impulse);
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + shotForce);
+        Gizmos.DrawLine(_cachedTransform.position, _cachedTransform.position + _shotForce);
     }
 
     private float CalculateDegree(Vector3 from, Vector3 to)
@@ -145,27 +152,27 @@ public class StrikeBall : MonoBehaviour
 
     public static void SetCurrentActiveBall(StrikeBall ball)
     {
-        currentActiveBall = ball;
+        _currentActiveBall = ball;
     }
 
     public static void SetFirstMove(bool value)
     {
-        firstMove = value;
+        _firstMove = value;
     }
 
     public BallController GetBallController()
     {
-        return ballController;
+        return _ballController;
     }
 
     public static StrikeBall CurrentActiveBall
     {
-        get { return currentActiveBall; }
+        get { return _currentActiveBall; }
     }
 
     public static bool FirstMove
     {
-        get { return firstMove; }
+        get { return _firstMove; }
     }
 
     public void EnabledController()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PhysicsController : MonoBehaviour
@@ -10,86 +8,102 @@ public class PhysicsController : MonoBehaviour
     [SerializeField] private float defaultMass;
     [SerializeField] private float defaultDrag;
     [SerializeField] private float defaultAngDrag;
-    private float tempMass, tempDrag, tempAngDrag;
-    public static PhysicsController instance;
+    private float _tempMass, _tempDrag, _tempAngDrag;
+    public static PhysicsController Instance;
     public delegate void OnPhysicsChanged();
-    public static OnPhysicsChanged physicsDelegate;
+    public static OnPhysicsChanged PhysicsDelegate;
+    
     private void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this);
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
     }
+    
     void Start()
     {
-        physicsDelegate.Invoke();
+        PhysicsDelegate.Invoke();
     }
+    
     public void SetDefaultPhysics()
     {
         ballMass = defaultMass;
-        tempMass = defaultMass;
+        _tempMass = defaultMass;
         dragRate = defaultDrag;
-        tempDrag = defaultDrag;
+        _tempDrag = defaultDrag;
         angularDragRate = defaultAngDrag;
-        tempAngDrag = defaultAngDrag;
+        _tempAngDrag = defaultAngDrag;
     }
+    
     public void ApplyPhysicsChanges()
     {
-        ballMass = tempMass;
-        dragRate = tempDrag;
-        angularDragRate = tempAngDrag;
+        ballMass = _tempMass;
+        dragRate = _tempDrag;
+        angularDragRate = _tempAngDrag;
     }
-    public float getBallMass()
+    
+    public float GetBallMass()
     {
         return ballMass;
     }
-    public float getDefaultBallMass()
+    
+    public float GetDefaultBallMass()
     {
         return defaultMass;
     }
-    public float getDrag()
+    
+    public float GetDrag()
     {
         return dragRate;
     }
-    public float getDefaultDrag()
+    
+    public float GetDefaultDrag()
     {
         return defaultDrag;
     }
-    public float getAngularDrag()
+    
+    public float GetAngularDrag()
     {
         return angularDragRate;
     }
-    public float getDefaultAngularDrag()
+    
+    public float GetDefaultAngularDrag()
     {
         return defaultAngDrag;
     }
-    public void setBallMass(float ballMass)
+    
+    public void SetBallMass(float ballMass)
     {
         this.ballMass = ballMass;
     }
-    public void setTempMass(float ballMass)
+    
+    public void SetTempMass(float ballMass)
     {
-        tempMass = ballMass;
+        _tempMass = ballMass;
     }
-    public void setDrag(float dragRate)
+    
+    public void SetDrag(float dragRate)
     {
         this.dragRate = dragRate;
     }
-    public void setTempDrag(float dragRate)
+    
+    public void SetTempDrag(float dragRate)
     {
-        tempDrag = dragRate;
+        _tempDrag = dragRate;
     }
-    public void setAngularDrag(float angularDragRate)
+    
+    public void SetAngularDrag(float angularDragRate)
     {
         this.angularDragRate = angularDragRate;
     }
-    public void setTempAngularDrag(float angularDragRate)
+    
+    public void SetTempAngularDrag(float angularDragRate)
     {
-        tempAngDrag = angularDragRate;
+        _tempAngDrag = angularDragRate;
     }
 }

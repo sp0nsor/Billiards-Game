@@ -1,45 +1,31 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 
-public enum BallType { BLACK, WHITE };
+public enum BallType { Black, White };
 [RequireComponent(typeof(SphereCollider))]
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
     private AudioSource _audioSourse;
-    private float speed, maxSpeed = 0.008f, volume;
-    [SerializeField] private AudioClip collisionSound;
     [SerializeField] private BallType ballType;
     [SerializeField] private int ballNumber;
-
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _audioSourse = gameObject.GetComponent<AudioSource>();
-        PhysicsController.physicsDelegate += ApplyPhysics;
-    }
-
-    private void Update()
-    {
-        RoundSpeed();
+        PhysicsController.PhysicsDelegate += ApplyPhysics;
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Ball")
+        if (other.gameObject.CompareTag("Ball"))
         {
             if (_rb.velocity.sqrMagnitude > 0.004f)
             {
-                speed = _rb.velocity.magnitude;
-                volume = Mathf.Clamp01(speed);
-                PlayCollisionSound(speed / 2);
+                PlayCollisionSound(_rb.velocity.magnitude / 2);
             }
         }
-        if (other.gameObject.tag == "Band")
+        if (other.gameObject.CompareTag("Band"))
         {
             Vector3 objectDir = transform.forward;
             Vector3 otherNormal = other.GetContact(0).normal;
@@ -50,37 +36,20 @@ public class BallController : MonoBehaviour
         }
     }
 
-    public void ManageVelocity()
-    {
-        _rb.velocity = _rb.velocity * 0.9985f;
-        _rb.angularVelocity = _rb.angularVelocity * 0.9985f;
-    }
-
-    public IEnumerator ManageVelocityEnum()
-    {
-        while (true)
-        {
-            _rb.velocity = _rb.velocity * 0.991f;
-            _rb.angularVelocity = _rb.angularVelocity * 0.991f;
-
-            yield return new WaitForFixedUpdate();
-        }
-    }
-
     public void ApplyPhysics()
     {
         if (_rb != null)
         {
-            _rb.angularDrag = PhysicsController.instance.getAngularDrag();
-            _rb.mass = PhysicsController.instance.getBallMass();
-            _rb.drag = PhysicsController.instance.getDrag();
+            _rb.angularDrag = PhysicsController.Instance.GetAngularDrag();
+            _rb.mass = PhysicsController.Instance.GetBallMass();
+            _rb.drag = PhysicsController.Instance.GetDrag();
         }
     }
 
     public void GotPocketed()
     {
-        GameController.instance.CheckPocketedBall(this);
-        PhysicsController.physicsDelegate -= ApplyPhysics;
+        GameController.Instance.CheckPocketedBall(this);
+        PhysicsController.PhysicsDelegate -= ApplyPhysics;
         Destroy(gameObject, 1f);
     }
 
@@ -98,18 +67,19 @@ public class BallController : MonoBehaviour
         _audioSourse.PlayOneShot(_audioSourse.clip, volume);
     }
 
-    public BallType getBallType()
+    public BallType GetBallType()
     {
         return ballType;
     }
 
-    public int getBallNumber()
+    public int GetBallNumber()
     {
         return ballNumber;
     }
 
-    public bool isMoving()
+    public bool IsMoving()
     {
+        RoundSpeed();
         return _rb.velocity.magnitude != 0;
     }
 }
