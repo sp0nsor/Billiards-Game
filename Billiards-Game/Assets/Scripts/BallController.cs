@@ -5,33 +5,19 @@ public enum BallType { Black, White };
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
-    private AudioSource _audioSourse;
     [SerializeField] private BallType ballType;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _audioSourse = gameObject.GetComponent<AudioSource>();
     }
 
-    private void OnCollisionEnter(Collision other)
+    public void Shot(float shotPower, float shotAngle)
     {
-        if (other.gameObject.CompareTag("Ball"))
-        {
-            if (_rb.velocity.sqrMagnitude > 0.004f)
-            {
-                PlayCollisionSound(_rb.velocity.magnitude / 2);
-            }
-        }
-        if (other.gameObject.CompareTag("Band"))
-        {
-            Vector3 objectDir = transform.forward;
-            Vector3 otherNormal = other.GetContact(0).normal;
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        Vector3 shotForce = Quaternion.Euler(0, shotAngle, 0) * new Vector3(0, 0, shotPower / 10 * 0.9f);
 
-            _rb.velocity = Vector3.Reflect(_rb.velocity, otherNormal);
-
-            _rb.angularVelocity = -_rb.angularVelocity;
-        }
+        rigidbody.AddForce(shotForce, ForceMode.Impulse);
     }
 
     private void RoundSpeed()
@@ -41,11 +27,6 @@ public class BallController : MonoBehaviour
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
-    }
-
-    private void PlayCollisionSound(float volume)
-    {
-        _audioSourse.PlayOneShot(_audioSourse.clip, volume);
     }
 
     public BallType GetBallType()

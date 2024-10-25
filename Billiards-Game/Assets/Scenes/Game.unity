@@ -4400,6 +4400,8 @@ MonoBehaviour:
     m_Bits: 64
   ShotPowerSliderFill: {fileID: 1174153479}
   Stick: {fileID: 558442365}
+  CurrentBall: {fileID: 0}
+  GameController: {fileID: 665016910}
 --- !u!1 &629750218
 GameObject:
   m_ObjectHideFlags: 0
@@ -4750,6 +4752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 1977794839}
   _ballsContainer: {fileID: 629750220}
+  StrikeBallView: {fileID: 612986723}
 --- !u!4 &665016911
 Transform:
   m_ObjectHideFlags: 0
@@ -7951,6 +7954,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134479864}
   m_CullTransparentMesh: 1
+--- !u!1 &1163434834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1163434837}
+  - component: {fileID: 1163434836}
+  - component: {fileID: 1163434835}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1163434835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163434834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edda9dc2999a294439c0ae0e55aa77f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1163434836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163434834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1163434835}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1163434837
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163434834}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1169900466
 GameObject:
   m_ObjectHideFlags: 0
@@ -13498,7 +13578,6 @@ GameObject:
   - component: {fileID: 364777573}
   - component: {fileID: 364777588}
   - component: {fileID: 364777575}
-  - component: {fileID: 3469287837945369327}
   m_Layer: 7
   m_Name: Ball 11
   m_TagString: Ball
@@ -13521,7 +13600,6 @@ GameObject:
   - component: {fileID: 558366960}
   - component: {fileID: 558366975}
   - component: {fileID: 558366962}
-  - component: {fileID: 3469287837918046617}
   m_Layer: 7
   m_Name: Ball 7
   m_TagString: Ball
@@ -13544,7 +13622,6 @@ GameObject:
   - component: {fileID: 724455470}
   - component: {fileID: 724455485}
   - component: {fileID: 724455472}
-  - component: {fileID: 3469287837768566810}
   m_Layer: 7
   m_Name: Ball 3
   m_TagString: Ball
@@ -13567,7 +13644,6 @@ GameObject:
   - component: {fileID: 1575759304}
   - component: {fileID: 1575759319}
   - component: {fileID: 1575759306}
-  - component: {fileID: 3469287837768584489}
   m_Layer: 7
   m_Name: Ball 12
   m_TagString: Ball
@@ -13590,7 +13666,6 @@ GameObject:
   - component: {fileID: 1056497375}
   - component: {fileID: 1056497390}
   - component: {fileID: 1056497377}
-  - component: {fileID: 3469287837640404293}
   m_Layer: 7
   m_Name: Ball 15
   m_TagString: Ball
@@ -13613,7 +13688,6 @@ GameObject:
   - component: {fileID: 659542716}
   - component: {fileID: 659542731}
   - component: {fileID: 659542718}
-  - component: {fileID: 3469287837656685838}
   m_Layer: 7
   m_Name: Ball 5
   m_TagString: Ball
@@ -13636,7 +13710,6 @@ GameObject:
   - component: {fileID: 426169492}
   - component: {fileID: 426169507}
   - component: {fileID: 426169494}
-  - component: {fileID: 3469287838617995817}
   m_Layer: 7
   m_Name: Ball 14
   m_TagString: Ball
@@ -13659,7 +13732,6 @@ GameObject:
   - component: {fileID: 1297464469}
   - component: {fileID: 1297464484}
   - component: {fileID: 1297464471}
-  - component: {fileID: 3469287838504621901}
   m_Layer: 7
   m_Name: Ball 9
   m_TagString: Ball
@@ -13682,7 +13754,6 @@ GameObject:
   - component: {fileID: 1378468519}
   - component: {fileID: 1378468534}
   - component: {fileID: 1378468521}
-  - component: {fileID: 3469287838388817340}
   m_Layer: 7
   m_Name: Ball 13
   m_TagString: Ball
@@ -13705,7 +13776,6 @@ GameObject:
   - component: {fileID: 1733997751}
   - component: {fileID: 1733997766}
   - component: {fileID: 1733997753}
-  - component: {fileID: 3469287838198425973}
   m_Layer: 7
   m_Name: Ball 2
   m_TagString: Ball
@@ -13728,7 +13798,6 @@ GameObject:
   - component: {fileID: 1268695984}
   - component: {fileID: 1268695999}
   - component: {fileID: 1268695986}
-  - component: {fileID: 3469287836956486622}
   m_Layer: 7
   m_Name: Ball 6
   m_TagString: Ball
@@ -13751,7 +13820,6 @@ GameObject:
   - component: {fileID: 1001057009}
   - component: {fileID: 1001057024}
   - component: {fileID: 1001057011}
-  - component: {fileID: 3469287836908704178}
   m_Layer: 7
   m_Name: Ball 4
   m_TagString: Ball
@@ -13774,7 +13842,6 @@ GameObject:
   - component: {fileID: 1448349243}
   - component: {fileID: 1448349258}
   - component: {fileID: 1448349245}
-  - component: {fileID: 3469287836932860725}
   m_Layer: 7
   m_Name: Ball 10
   m_TagString: Ball
@@ -13797,7 +13864,6 @@ GameObject:
   - component: {fileID: 327105785}
   - component: {fileID: 327105795}
   - component: {fileID: 327105787}
-  - component: {fileID: 3469287836790360791}
   m_Layer: 7
   m_Name: Ball 0
   m_TagString: Ball
@@ -13820,7 +13886,6 @@ GameObject:
   - component: {fileID: 539606438}
   - component: {fileID: 539606453}
   - component: {fileID: 539606440}
-  - component: {fileID: 3469287836676631925}
   m_Layer: 7
   m_Name: Ball 1
   m_TagString: Ball
@@ -13843,7 +13908,6 @@ GameObject:
   - component: {fileID: 87503861}
   - component: {fileID: 87503876}
   - component: {fileID: 87503863}
-  - component: {fileID: 3469287837332991280}
   m_Layer: 7
   m_Name: Ball 8
   m_TagString: Ball
@@ -14531,19 +14595,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148887124075}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287836676631925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148887124075}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287836790360790
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14552,19 +14603,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148882366409}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287836790360791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148882366409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287836908704177
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14573,19 +14611,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148722140334}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287836908704178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148722140334}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287836932860724
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14594,19 +14619,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148739882539}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287836932860725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148739882539}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287836956486621
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14615,19 +14627,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148649213634}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287836956486622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148649213634}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837332991279
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14636,19 +14635,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149413558320}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837332991280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149413558320}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837640404292
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14657,19 +14643,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147990460507}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837640404293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147990460507}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837656685837
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14678,19 +14651,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148007651346}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837656685838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148007651346}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837768566809
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14699,19 +14659,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147837050118}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837768566810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147837050118}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837768584488
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14720,19 +14667,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147837098039}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837768584489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147837098039}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837918046616
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14741,19 +14675,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147712752775}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837918046617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147712752775}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287837945369326
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14762,19 +14683,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132147626690545}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287837945369327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147626690545}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287838198425972
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14783,19 +14691,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148548058219}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287838198425973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148548058219}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287838388817339
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14804,19 +14699,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148315773092}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287838388817340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148315773092}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287838504621900
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14825,19 +14707,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148166410835}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287838504621901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148166410835}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}
 --- !u!33 &3469287838617995816
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14846,16 +14715,3 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148027875127}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3469287838617995817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148027875127}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d7be5775c4918746b408b92c3286afc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StrikeBallView: {fileID: 612986723}

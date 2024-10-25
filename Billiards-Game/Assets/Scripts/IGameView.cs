@@ -1,4 +1,7 @@
-﻿public interface IGameView
+﻿using System;
+using UnityEngine;
+
+public interface IGameView
 {
-    void UpdateUI(int pocketedBallsP1, int pocketedBallsP2, GameState currentState);
+    void UpdateCurrentBall(BallController ballController);
 }

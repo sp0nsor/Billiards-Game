@@ -1,38 +1,54 @@
-using System.Collections;
+using Zenject;
 using UnityEngine;
+using System.Collections;
 
 public class GameController : MonoBehaviour
 {
     private Game game;
 
-    [SerializeField] private GameView view;
-    [SerializeField] private BallsContainer _ballsContainer;
+    private IGameView _gameView;
+    private IMatchView _matchView;
+    private IBallsContainer _ballsContainer;
 
-    private readonly WaitForSeconds _waitForBallsStopTime = new(1f);    
+    private readonly WaitForSeconds _waitForBallsStopTime = new(1f);
+
+    [Inject]
+    public void Construct(IGameView gameView, IMatchView matchView, IBallsContainer ballsContainer)
+    {
+        _gameView = gameView;
+        _matchView = matchView;
+        _ballsContainer = ballsContainer;
+    }
 
     private void Awake()
     {
         game = new Game();
 
         PocketController.OnBallPocketed += CheckPocketedBall;
-        StrikeBallController.OnShotEnded += StartWaitForBallsToStop;
     }
-    
+
+    private void Start()
+    {
+        SelectBall();
+    }
+
     public void CheckPocketedBall(BallController ballController)
     {
         BallType ballType = ballController.GetBallType();
 
         game.UpdateGameState(ballType);
-        view.UpdateUI(game.PocketedBallsP1, game.PocketedBallsP2, game.GameState);
+        _matchView.UpdateUI(game.PocketedBallsP1, game.PocketedBallsP2, game.GameState);
     }
 
     private void SelectBall()
     {
+        BallController ball;
         if (game.GameState == GameState.Player1Turn)
-            _ballsContainer.GetStrikeBall(BallType.White).enabled = true;
+            ball = _ballsContainer.GetStrikeBall(BallType.White);
+        else
+            ball = _ballsContainer.GetStrikeBall(BallType.Black);
 
-        if (game.GameState == GameState.Player2Turn)
-            _ballsContainer.GetStrikeBall(BallType.Black).enabled = true;
+        _gameView.UpdateCurrentBall(ball);
     }
 
     public IEnumerator WaitForBallsToStop()
@@ -48,7 +64,7 @@ public class GameController : MonoBehaviour
         SelectBall();
     }
 
-    private void StartWaitForBallsToStop()
+    public void StartWaitForBallsToStop()
     {
         StartCoroutine(WaitForBallsToStop());
     }
