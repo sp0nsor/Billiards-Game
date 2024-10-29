@@ -1,15 +1,15 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BallsContainer : MonoBehaviour, IBallsContainer
 {
-    private List<BallController> balls = new List<BallController>();
+    private List<Ball> balls = new List<Ball>();
 
     private void Awake()
     {
         PocketController.OnBallPocketed += OnBallPocketed;
-        balls = new List<BallController>(16);
+        balls = new List<Ball>(16);
 
         InitBalls();
     }
@@ -17,26 +17,26 @@ public class BallsContainer : MonoBehaviour, IBallsContainer
     private void InitBalls()
     {
         foreach (Transform ball in transform)
-            balls.Add(ball.GetComponent<BallController>());
+            balls.Add(ball.GetComponent<Ball>());
     }
 
-    public void OnBallPocketed(BallController ball)
+    public void OnBallPocketed(Ball ball)
     {
         balls.Remove(ball);
 
-        Destroy(ball.gameObject, 1f);
+        Destroy(ball.gameObject, 0.3f);
     }
 
     public bool AreBallsMoving()
     {
-        foreach (BallController ballController in balls)
+        foreach (Ball ballController in balls)
             if (ballController.IsMoving())
                 return true;
 
         return false;
     }
 
-    public BallController GetStrikeBall(BallType ballType)
+    public Ball GetStrikeBall(BallType ballType)
     {
         return balls.First(b => b.GetBallType() == ballType);
     }

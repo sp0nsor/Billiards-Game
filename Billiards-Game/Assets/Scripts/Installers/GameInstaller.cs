@@ -7,7 +7,5 @@ public class GameInstaller : MonoInstaller
         Container.Bind<IGameView>().To<GameView>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IMatchView>().To<MatchView>().FromComponentInHierarchy().AsSingle();
         Container.Bind<IBallsContainer>().To<BallsContainer>().FromComponentInHierarchy().AsSingle();
-
-
     }
 }

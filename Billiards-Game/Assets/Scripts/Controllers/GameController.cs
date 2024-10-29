@@ -25,30 +25,34 @@ public class GameController : MonoBehaviour
         game = new Game();
 
         PocketController.OnBallPocketed += CheckPocketedBall;
-    }
 
-    private void Start()
-    {
         SelectBall();
     }
 
-    public void CheckPocketedBall(BallController ballController)
+    public void CheckPocketedBall(Ball ballController)
     {
         BallType ballType = ballController.GetBallType();
-
         game.UpdateGameState(ballType);
-        _matchView.UpdateUI(game.PocketedBallsP1, game.PocketedBallsP2, game.GameState);
     }
 
     private void SelectBall()
     {
-        BallController ball;
-        if (game.GameState == GameState.Player1Turn)
-            ball = _ballsContainer.GetStrikeBall(BallType.White);
-        else
-            ball = _ballsContainer.GetStrikeBall(BallType.Black);
+        if (!TryGetBall(out var ball))
+            return;
 
         _gameView.UpdateCurrentBall(ball);
+    }
+
+    private bool TryGetBall(out Ball ball)
+    {
+        ball = game.GameState switch
+        {
+            GameState.Player1Turn => _ballsContainer.GetStrikeBall(BallType.White),
+            GameState.Player2Turn => _ballsContainer.GetStrikeBall(BallType.Black),
+            _ => null
+        };
+
+        return ball != null;
     }
 
     public IEnumerator WaitForBallsToStop()
@@ -61,6 +65,7 @@ public class GameController : MonoBehaviour
         }
 
         game.CheckChangeTurn();
+        _matchView.UpdateUI(game.PocketedBallsP1, game.PocketedBallsP2, game.GameState);
         SelectBall();
     }
 

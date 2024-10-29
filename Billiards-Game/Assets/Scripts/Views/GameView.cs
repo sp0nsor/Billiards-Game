@@ -5,12 +5,12 @@ using System.Collections;
 public class GameView : MonoBehaviour, IGameView
 {
     [SerializeField] private Slider Slider;
-    [SerializeField] private LayerMask TableLayer;
     [SerializeField] private GameObject Stick;
+    [SerializeField] private LayerMask TableLayer;
     [SerializeField] private GameController GameController;
 
     private bool _isTakingShot;
-    private BallController CurrentBall;
+    private Ball CurrentBall;
 
     private const float MaxShotPower = 100f;
     private const float MinDistanceFromBall = 0.1f;
@@ -48,6 +48,8 @@ public class GameView : MonoBehaviour, IGameView
         while (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
+            SetStickPosition(CurrentBall.transform.position);
+            RotateStickAroundBall(CurrentBall.transform.position, Stick.transform.eulerAngles.y);
 
             if (touch.phase == TouchPhase.Ended && Slider.value == Slider.minValue)
             {
@@ -99,7 +101,7 @@ public class GameView : MonoBehaviour, IGameView
     }
 
 
-    public void UpdateCurrentBall(BallController ballController)
+    public void UpdateCurrentBall(Ball ballController)
     {
         CurrentBall = ballController;
 

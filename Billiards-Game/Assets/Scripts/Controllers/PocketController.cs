@@ -4,11 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class PocketController : MonoBehaviour
 {
-    public static event Action<BallController> OnBallPocketed;
+    public static event Action<Ball> OnBallPocketed;
 
     private void OnTriggerEnter(Collider other)
     {
-        BallController ballController = other.GetComponent<BallController>();
+        Ball ballController = other.GetComponent<Ball>();
         if(ballController)
             OnBallPocketed?.Invoke(ballController);
     }

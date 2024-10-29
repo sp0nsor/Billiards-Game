@@ -466,8 +466,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1977794839}
-        m_TargetAssemblyTypeName: GameView, Assembly-CSharp
+      - m_Target: {fileID: 424730360}
+        m_TargetAssemblyTypeName: FrameLimiter, Assembly-CSharp
         m_MethodName: OnExit
         m_Mode: 1
         m_Arguments:
@@ -1255,8 +1255,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1977794839}
-        m_TargetAssemblyTypeName: GameView, Assembly-CSharp
+      - m_Target: {fileID: 424730360}
+        m_TargetAssemblyTypeName: FrameLimiter, Assembly-CSharp
         m_MethodName: OnExit
         m_Mode: 1
         m_Arguments:
@@ -2850,7 +2850,7 @@ GameObject:
   - component: {fileID: 424730359}
   - component: {fileID: 424730360}
   m_Layer: 0
-  m_Name: FPS Contoller
+  m_Name: FrameLimiter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2883,6 +2883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3215aa8e21da6b74f8b201751d3f389f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMenu: {fileID: 1110198175}
 --- !u!1 &425755961
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,7 +4188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 558442366}
   m_Layer: 0
-  m_Name: Billards Stick Parent
+  m_Name: StickParent
   m_TagString: Stick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4361,7 +4362,7 @@ GameObject:
   - component: {fileID: 612986722}
   - component: {fileID: 612986723}
   m_Layer: 0
-  m_Name: StrikeBallView
+  m_Name: GameView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4391,16 +4392,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 612986721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0380526cf841ac469f98bbf6a3ea0e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 5447b2b119cd3e84ebf66e605aae505a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Slider: {fileID: 1214631466}
+  Stick: {fileID: 558442365}
   TableLayer:
     serializedVersion: 2
     m_Bits: 64
-  ShotPowerSliderFill: {fileID: 1174153479}
-  Stick: {fileID: 558442365}
-  CurrentBall: {fileID: 0}
   GameController: {fileID: 665016910}
 --- !u!1 &629750218
 GameObject:
@@ -4732,7 +4731,7 @@ GameObject:
   - component: {fileID: 665016911}
   - component: {fileID: 665016910}
   m_Layer: 0
-  m_Name: Game Controller
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4750,9 +4749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1880dd89fe7dee41b47d12f27651ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view: {fileID: 1977794839}
-  _ballsContainer: {fileID: 629750220}
-  StrikeBallView: {fileID: 612986723}
 --- !u!4 &665016911
 Transform:
   m_ObjectHideFlags: 0
@@ -5522,8 +5518,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1977794839}
-        m_TargetAssemblyTypeName: GameView, Assembly-CSharp
+      - m_Target: {fileID: 424730360}
+        m_TargetAssemblyTypeName: FrameLimiter, Assembly-CSharp
         m_MethodName: OnResume
         m_Mode: 1
         m_Arguments:
@@ -6182,8 +6178,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1977794839}
-        m_TargetAssemblyTypeName: GameView, Assembly-CSharp
+      - m_Target: {fileID: 424730360}
+        m_TargetAssemblyTypeName: FrameLimiter, Assembly-CSharp
         m_MethodName: OnPlayAgain
         m_Mode: 1
         m_Arguments:
@@ -9364,8 +9360,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1977794839}
-        m_TargetAssemblyTypeName: GameView, Assembly-CSharp
+      - m_Target: {fileID: 424730360}
+        m_TargetAssemblyTypeName: FrameLimiter, Assembly-CSharp
         m_MethodName: OnPause
         m_Mode: 1
         m_Arguments:
@@ -12358,7 +12354,7 @@ GameObject:
   - component: {fileID: 1977794838}
   - component: {fileID: 1977794839}
   m_Layer: 0
-  m_Name: GameView
+  m_Name: MatchView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12391,7 +12387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1638e98b06f2284dbc7c173b37dc954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMenu: {fileID: 1110198175}
+  endGamePanel: {fileID: 934600320}
   player1Balls:
   - {fileID: 2053117111}
   - {fileID: 635547099}
@@ -12412,7 +12408,6 @@ MonoBehaviour:
   - {fileID: 1675169525}
   turnText: {fileID: 277823789}
   endMessageText: {fileID: 1249865774}
-  endGamePanel: {fileID: 934600320}
   blackBallSprite: {fileID: 21300000, guid: 0a439a2983c490843ab15e13e1107480, type: 3}
   whiteBallSprite: {fileID: 21300000, guid: 8397946d8a347934d8272ead2b97b933, type: 3}
 --- !u!1 &1978481122

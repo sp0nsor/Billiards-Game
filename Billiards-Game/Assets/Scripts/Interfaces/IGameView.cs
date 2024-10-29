@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface IGameView
 {
-    void UpdateCurrentBall(BallController ballController);
+    void UpdateCurrentBall(Ball ballController);
 }

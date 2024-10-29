@@ -1,11 +1,9 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MatchView : MonoBehaviour, IMatchView
 {
-    [SerializeField] private GameObject gameMenu;
     [SerializeField] private GameObject endGamePanel;
     [SerializeField] private Image[] player1Balls, player2Balls;
     [SerializeField] private TextMeshProUGUI turnText, endMessageText;
@@ -43,26 +41,4 @@ public class MatchView : MonoBehaviour, IMatchView
             Time.timeScale = 0f;
         }
     }
-
-    // вынести эти методы в отдельынй класс 
-    public void OnPause()
-    {
-        gameMenu.SetActive(true);
-        Time.timeScale = 1f;
-    }
-    public void OnResume()
-    {
-        gameMenu.SetActive(false);
-        Time.timeScale = 1.0f;
-    }
-
-    public void OnExit()
-    {
-        Application.Quit();
-    }
-    public void OnPlayAgain()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
 }
